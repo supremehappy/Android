@@ -1,0 +1,33 @@
+package com.android.supremehappy.yutgame;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
+public class MainActivity extends Activity {
+
+    String[] mal = {"도","개","걸","윷","모"};
+    int[] imgYut={R.drawable.yut_0, R.drawable.yut_1};
+    Button btn_start, btn_end;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        btn_start=(Button) findViewById(R.id.btn_start);
+        btn_start.setOnClickListener(new View.OnClickListener(){
+            public void onCLick(View v){
+
+            }
+        });
+
+        btn_end=(Button) findViewById(R.id.btn_end);
+        btn_end.setOnClickListener(new View.OnClickListener(){
+            public void onCLick(View v){
+
+            }
+        });
+}
