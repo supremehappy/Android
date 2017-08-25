@@ -1,0 +1,33 @@
+package com.android.supremehappy.intentdatatest;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+
+public class FirstChild extends Activity {
+	
+	Button btn_first;
+	EditText edit_first;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.first);
+		
+		edit_first = (EditText) findViewById(R.id.edit_first);
+		
+		btn_first = (Button) findViewById(R.id.btn_first);
+		btn_first.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+	}
+}

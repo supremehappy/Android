@@ -1,2 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<typeInfoHistroy/>
+<typeInfoHistroy>
+<typeInfo handle="=IntentTest/src&lt;com.android.supremehappy.intenttest{SecondActivity.java[SecondActivity" modifiers="1" timestamp="1503626166810"/>
+<typeInfo handle="=IntentDataTest/src&lt;com.android.supremehappy.intentdatatest{FirstChild.java[FirstChild" modifiers="1" timestamp="1503638437636"/>
+<typeInfo handle="=IntentDataTest/src&lt;com.android.supremehappy.intentdatatest{SecondChild.java[SecondChild" modifiers="1" timestamp="1503638583730"/>
+<typeInfo handle="=OneAndTwo/src&lt;com.android.supremehappy.oneandtwo{SubActivity.java[SubActivity" modifiers="1" timestamp="1503641122404"/>
+<typeInfo handle="=IntentTest/C:\/Users\/wtime\/android-sdks\/platforms\/android-19\/android.jar&lt;android.app(Activity.class[Activity" modifiers="33" timestamp="1503620124071"/>
+</typeInfoHistroy>

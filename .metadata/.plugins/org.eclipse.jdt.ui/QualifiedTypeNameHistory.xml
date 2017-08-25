@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="android.view.View.OnClickListener"/>
 <fullyQualifiedTypeName name="android.widget.RadioGroup.OnCheckedChangeListener"/>
 <fullyQualifiedTypeName name="com.android.supremehappy.eventtest.R.id"/>
 <fullyQualifiedTypeName name="android.util.Log"/>
+<fullyQualifiedTypeName name="com.android.supremehappy.yutgame.R.id"/>
+<fullyQualifiedTypeName name="com.android.supremehappy.twonty.R.id"/>
+<fullyQualifiedTypeName name="com.android.supremehappy.dice.R.drawable"/>
+<fullyQualifiedTypeName name="com.android.supremehappy.dice.R.id"/>
+<fullyQualifiedTypeName name="com.android.supremehappy.simplenote.R.id"/>
+<fullyQualifiedTypeName name="android.os.Environment"/>
+<fullyQualifiedTypeName name="android.widget.Toast"/>
+<fullyQualifiedTypeName name="com.android.supremehappy.intenttest.R.layout"/>
+<fullyQualifiedTypeName name="com.android.supremehappy.intenttest.R.id"/>
+<fullyQualifiedTypeName name="com.android.supremehappy.intentdatatest.R.id"/>
+<fullyQualifiedTypeName name="android.view.View.OnClickListener"/>
+<fullyQualifiedTypeName name="com.android.supremehappy.oneandtwo.R.id"/>
+<fullyQualifiedTypeName name="com.android.supremehappy.menutest.R.menu"/>
+<fullyQualifiedTypeName name="com.android.supremehappy.menutest.R.layout"/>
+<fullyQualifiedTypeName name="com.android.supremehappy.menutest.R.id"/>
+<fullyQualifiedTypeName name="android.os.SystemClock"/>
 </qualifiedTypeNameHistroy>

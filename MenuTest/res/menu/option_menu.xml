@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <item android:id="@+id/home" android:title="HOME" android:orderInCategory="1"></item>
+    <item android:id="@+id/exit" android:title="종료" android:orderInCategory="2"></item>
+    <item android:id="@+id/digital" android:title="디지털시대" android:orderInCategory="3"></item>
+    <item android:id="@+id/analog" android:title="아날로그시대" android:orderInCategory="4"></item>
+    <item android:id="@+id/chrono" android:title="초시계" android:orderInCategory="5"></item>
+
+</menu>
