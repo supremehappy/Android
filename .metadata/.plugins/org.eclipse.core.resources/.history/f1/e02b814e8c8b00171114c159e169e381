@@ -1,0 +1,30 @@
+package com.android.supremehappy.listtesttwo;
+
+import android.app.ListActivity;
+import android.example.djlee.listtest2.MainActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
+//내장 list 를 가지고 있으므로 findViewById 로 찾을 필요 없다. + 리스너를 통한 이벤트 처리 대신 콜백메서드를 이용
+
+public class MainActivity extends ListActivity {
+
+	String[] dongs={"1","2","3","4","5","6","7","8","9","10"};
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_expandable_list_item_1,dongs);
+		setListAdapter(adapter);
+	}
+
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		Toast.makeText(MainActivity.this,dongs[position], Toast.LENGTH_LONG).show();
+	}
+}

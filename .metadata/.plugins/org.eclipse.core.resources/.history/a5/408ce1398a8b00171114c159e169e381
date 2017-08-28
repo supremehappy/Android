@@ -1,0 +1,38 @@
+package android.example.djlee.listtest2;
+
+import android.app.ListActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
+public class MainActivity extends ListActivity {
+	String[] dongs ={"대치동","대치1동","대치2동","역삼동","역삼1동",
+			"목동","목1동","목2동"		
+	};
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+				this,android.R.layout.simple_expandable_list_item_1,
+				dongs);
+		setListAdapter(adapter);
+	}
+
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		Toast.makeText(MainActivity.this, 
+				dongs[position], Toast.LENGTH_LONG).show();
+	}
+	
+}
+
+
+
+
+
+
+

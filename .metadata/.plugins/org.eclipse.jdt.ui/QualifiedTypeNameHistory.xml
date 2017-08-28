@@ -9,7 +9,6 @@
 <fullyQualifiedTypeName name="com.android.supremehappy.dice.R.id"/>
 <fullyQualifiedTypeName name="com.android.supremehappy.simplenote.R.id"/>
 <fullyQualifiedTypeName name="android.os.Environment"/>
-<fullyQualifiedTypeName name="android.widget.Toast"/>
 <fullyQualifiedTypeName name="com.android.supremehappy.intenttest.R.layout"/>
 <fullyQualifiedTypeName name="com.android.supremehappy.intenttest.R.id"/>
 <fullyQualifiedTypeName name="com.android.supremehappy.intentdatatest.R.id"/>
@@ -18,5 +17,12 @@
 <fullyQualifiedTypeName name="com.android.supremehappy.menutest.R.menu"/>
 <fullyQualifiedTypeName name="com.android.supremehappy.menutest.R.layout"/>
 <fullyQualifiedTypeName name="com.android.supremehappy.menutest.R.id"/>
+<fullyQualifiedTypeName name="android.os.Debug"/>
 <fullyQualifiedTypeName name="android.os.SystemClock"/>
+<fullyQualifiedTypeName name="com.android.supremehappy.listtest.R.id"/>
+<fullyQualifiedTypeName name="android.R"/>
+<fullyQualifiedTypeName name="android.R.layout"/>
+<fullyQualifiedTypeName name="android.widget.Toast"/>
+<fullyQualifiedTypeName name="android.app.ListActivity"/>
+<fullyQualifiedTypeName name="com.android.supremehappy.listtesttwo.R.id"/>
 </qualifiedTypeNameHistroy>

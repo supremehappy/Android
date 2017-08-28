@@ -1,0 +1,106 @@
+package generator;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+
+public class ProjectMain {
+	public static void main(String[] args) {
+		MakeSqliteFile msf = new MakeSqliteFile();
+		msf.makeDBFile();
+		msf.createTable();
+		msf.insertData();
+	}
+}
+class MakeSqliteFile{
+	Connection conn; Statement stmt; PreparedStatement pstmt;
+	public static final String TABLE_NAME = "myGroups";
+	public static final String CREATE_TABLE = 
+		"create table "+TABLE_NAME+" (_id integer primary key "+
+		"autoincrement, grp_name text not null,"+
+		"name text not null, phone text not null,"
+		+ "address text not null);";
+	public static final String INSERT_TABLE = 
+		"insert into "+TABLE_NAME+" (grp_name,name,phone,address) "+
+		"values(?,?,?,?);";
+	public void makeDBFile(){
+		try{
+			Class.forName("org.sqlite.JDBC");
+			conn = DriverManager.getConnection(
+					"jdbc:sqlite:myData.db");
+			if(conn == null){
+				System.out.println("sqlite db파일 생성 실패!");
+				return;
+			}
+			stmt = conn.createStatement();
+			stmt.executeUpdate(
+					"drop table if exists "+TABLE_NAME+";");
+		}catch(Exception e){
+			System.out.println("sqlite db파일 생성 중 문제가 발생했습니다.");
+		}
+	}
+	public void createTable(){
+		try{
+			stmt.executeUpdate(CREATE_TABLE);
+			System.out.println("테이블 생성이 종료되었습니다.");
+		}catch(Exception e){
+			System.out.println("테이블 생성 중 문제가 발생했습니다.");
+		}
+	}
+	public void insertData(){
+		try{
+			pstmt = conn.prepareStatement(INSERT_TABLE);
+			pstmt.setString(1, "직장");
+			pstmt.setString(2, "김과장님");
+			pstmt.setString(3, "010-1234-7893");
+			pstmt.setString(4, "서울시 광진구");
+			pstmt.addBatch();//배치작업으로 설정
+			pstmt.setString(1, "직장");
+			pstmt.setString(2, "이대리님");
+			pstmt.setString(3, "010-3763-7892");
+			pstmt.setString(4, "서울시 마포구");
+			pstmt.addBatch();//배치작업으로 설정
+			pstmt.setString(1, "직장");
+			pstmt.setString(2, "박부장님");
+			pstmt.setString(3, "010-4785-2458");
+			pstmt.setString(4, "서울시 성북구");
+			pstmt.addBatch();//배치작업으로 설정
+			pstmt.setString(1, "맛집");
+			pstmt.setString(2, "마포갈비");
+			pstmt.setString(3, "02-7232-0987");
+			pstmt.setString(4, "서울시 마포구");
+			pstmt.addBatch();//배치작업으로 설정
+			pstmt.setString(1, "맛집");
+			pstmt.setString(2, "인천쫄면");
+			pstmt.setString(3, "032-2342-7811");
+			pstmt.setString(4, "인천시 남동구");
+			pstmt.addBatch();//배치작업으로 설정
+			pstmt.executeBatch();//배치작업을 실행
+			System.out.println("배치작업이 종료되었습니다.");
+		}catch(Exception e){
+			System.out.println("배치작업 중 문제가 발생했습니다.");
+			e.printStackTrace();
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
