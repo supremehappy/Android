@@ -1,0 +1,98 @@
+package com.android.supremehappy.tts;
+
+import java.util.Locale;
+import java.util.Random;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class DiceActivity extends Activity implements TextToSpeech.OnInitListener{
+
+	int[] player = {R.drawable.d01,R.drawable.d02,R.drawable.d03,R.drawable.d04,R.drawable.d05,R.drawable.d06};
+	int[] com = {R.drawable.d1,R.drawable.d2,R.drawable.d3,R.drawable.d4,R.drawable.d5,R.drawable.d6};
+	Button start, exit;
+	private TextToSpeech mTTS;
+		
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_dice);
+		
+		mTTS = new TextToSpeech(this,this);
+		
+		start = (Button)findViewById(R.id.btn_start);
+		start.setOnClickListener(new OnClickListener(){
+			
+			
+			TextView result;
+			ImageView pc, npc;
+			
+			@Override
+			public void onClick(View v) {
+				Random rd = new Random();
+				int d1 = rd.nextInt(6),d2=rd.nextInt(6);
+				String str = "";
+				
+				pc=(ImageView)findViewById(R.id.imageView1);
+				pc.setImageResource(player[d1]);
+			
+				npc=(ImageView)findViewById(R.id.imageView2);
+				npc.setImageResource(com[d2]);
+				
+				int n1 = d1+1, n2=d2+1;
+				result = (TextView) findViewById(R.id.textView1);
+				
+				if(d1>d2){
+					str = "pc 승";
+					result.setText("pc 승");
+				}else if(d1==d2){
+					str = "무승부";
+					result.setText("무승부");
+				}else if(d1<d2){
+					str = "pc 패";
+					result.setText("pc 패");
+				}
+				
+				mTTS.speak(str, TextToSpeech.QUEUE_FLUSH, null);
+			}
+			
+		});
+		
+		exit = (Button)findViewById(R.id.btn_exit);
+		exit.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				
+				finish();
+			}
+		});
+		
+	}
+
+
+	@Override
+	public void onInit(int status) { //tts 초기화 메서드
+		
+		if(status == TextToSpeech.SUCCESS){
+			int result = mTTS.setLanguage(Locale.KOREAN);//한국어
+			
+			if(result!=TextToSpeech.LANG_MISSING_DATA || result != TextToSpeech.LANG_NOT_SUPPORTED){// 한국어 정보가 있고 지원하는 언어일때
+				
+			}else{
+				Toast.makeText(this, "not TTS", Toast.LENGTH_SHORT).show();
+				
+			}
+		}
+		
+	}
+}

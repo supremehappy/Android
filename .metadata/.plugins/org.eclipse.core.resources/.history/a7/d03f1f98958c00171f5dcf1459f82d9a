@@ -1,0 +1,75 @@
+package com.android.supremehappy.elebator;
+
+import java.util.Random;
+
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Canvas;
+import android.os.Bundle;
+import android.view.View;
+
+public class MainActivity extends Activity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(new MyView(this));
+	}
+	
+	class MyView extends View {
+
+		public int floor_1 = 0; // 첫번째 엘베 현재 층
+		public int floor_2 = 0; // 두번째 엘베 현재 층
+		public boolean flag = false; // 엘베 운행 종료 설정
+		
+		public MyView(Context context) {
+			super(context);
+			
+			Random rand = new Random();
+			
+			Elevator1 t1 = new Elevator1(rand.nextInt(1000)); // 운행 속도
+			Runnable r = new Elevator2(rand.nextInt(1000));
+			Thread t2 = new Thread(r);
+			
+			t1.start();
+			t2.start();
+		}
+		
+		@Override
+		protected void onDraw(Canvas canvas) {
+			// TODO Auto-generated method stub
+			super.onDraw(canvas);
+		}
+	}
+}
+
+class Elevator1 extends Thread{
+	int speed;
+	
+	Elevator1(int speed){
+		this.speed = speed;
+	}
+	
+	@Override
+	public void run() {
+
+		
+		
+	}
+}
+
+class Elevator2 implements Runnable{
+	int speed;
+	
+	Elevator2(int speed){
+		this.speed = speed;
+	}
+	
+	@Override
+	public void run() {
+
+		
+		
+	}
+	
+}

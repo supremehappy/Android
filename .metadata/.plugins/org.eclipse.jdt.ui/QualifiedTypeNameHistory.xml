@@ -12,7 +12,6 @@
 <fullyQualifiedTypeName name="com.android.supremehappy.intenttest.R.layout"/>
 <fullyQualifiedTypeName name="com.android.supremehappy.intenttest.R.id"/>
 <fullyQualifiedTypeName name="com.android.supremehappy.intentdatatest.R.id"/>
-<fullyQualifiedTypeName name="android.view.View.OnClickListener"/>
 <fullyQualifiedTypeName name="com.android.supremehappy.oneandtwo.R.id"/>
 <fullyQualifiedTypeName name="com.android.supremehappy.menutest.R.menu"/>
 <fullyQualifiedTypeName name="com.android.supremehappy.menutest.R.layout"/>
@@ -22,7 +21,26 @@
 <fullyQualifiedTypeName name="com.android.supremehappy.listtest.R.id"/>
 <fullyQualifiedTypeName name="android.R"/>
 <fullyQualifiedTypeName name="android.R.layout"/>
-<fullyQualifiedTypeName name="android.widget.Toast"/>
-<fullyQualifiedTypeName name="android.app.ListActivity"/>
 <fullyQualifiedTypeName name="com.android.supremehappy.listtesttwo.R.id"/>
+<fullyQualifiedTypeName name="android.database.sqlite.SQLiteDatabase"/>
+<fullyQualifiedTypeName name="android.content.Context"/>
+<fullyQualifiedTypeName name="android.app.AlertDialog"/>
+<fullyQualifiedTypeName name="android.app.AlertDialog.Builder"/>
+<fullyQualifiedTypeName name="android.content.DialogInterface.OnClickListener"/>
+<fullyQualifiedTypeName name="com.android.supremehappy.myfrendsbook.R.layout"/>
+<fullyQualifiedTypeName name="com.android.supremehappy.myfrendsbook.R.id"/>
+<fullyQualifiedTypeName name="java.sql.Connection"/>
+<fullyQualifiedTypeName name="java.beans.Statement"/>
+<fullyQualifiedTypeName name="java.sql.Statement"/>
+<fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
+<fullyQualifiedTypeName name="java.sql.DriverManager"/>
+<fullyQualifiedTypeName name="android.app.ListActivity"/>
+<fullyQualifiedTypeName name="com.android.supremehappy.s2unitd.R.id"/>
+<fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="com.example.dbfromjava.R.id"/>
+<fullyQualifiedTypeName name="java.util.Locale"/>
+<fullyQualifiedTypeName name="android.widget.Toast"/>
+<fullyQualifiedTypeName name="com.android.supremehappy.tts.R.id"/>
+<fullyQualifiedTypeName name="android.view.View.OnClickListener"/>
+<fullyQualifiedTypeName name="android.widget.TextView"/>
 </qualifiedTypeNameHistroy>

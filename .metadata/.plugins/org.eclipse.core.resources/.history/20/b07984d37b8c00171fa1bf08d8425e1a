@@ -1,0 +1,51 @@
+package com.android.supremehappy.tts;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+
+public class MainActivity extends Activity {
+
+	Button btn_yut, btn_dice, btn_tts;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		
+		btn_yut = (Button) findViewById(R.id.btn_yut);
+		btn_yut.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		
+		btn_dice = (Button) findViewById(R.id.btn_dice);
+		btn_dice.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		
+		btn_tts = (Button) findViewById(R.id.btn_tts);
+		btn_tts.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+	}
+}

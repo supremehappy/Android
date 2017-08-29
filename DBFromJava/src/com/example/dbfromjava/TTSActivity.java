@@ -1,0 +1,65 @@
+package com.example.dbfromjava;
+
+import java.util.Locale;
+import java.util.Random;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.Toast;
+
+public class TTSActivity extends Activity implements TextToSpeech.OnInitListener{
+
+	private static final String[] WORDS={"왈왈", "멍멍", "나야나", "뭐", "이런거 처음 보냐?", "망했어요"};
+	private static final Random RAND = new Random();
+	private TextToSpeech mTTS;
+	private Button mbtn;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_tts);
+		
+		mTTS = new TextToSpeech(this,this); // TextToSpeech(this,this) : 첫 this = tts 가 동작되는 액티비티, 두번째 this  = tts 리스터 위치
+		
+		mbtn = (Button) findViewById(R.id.mbtn);
+		mbtn.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				
+				sayHello();
+				
+			}
+			
+		});
+	}
+
+	@Override
+	public void onInit(int status) { //tts 초기화 메서드
+		
+		if(status == TextToSpeech.SUCCESS){
+			int result = mTTS.setLanguage(Locale.KOREAN);//한국어
+			
+			if(result!=TextToSpeech.LANG_MISSING_DATA || result != TextToSpeech.LANG_NOT_SUPPORTED){// 한국어 정보가 있고 지원하는 언어일때
+				mbtn.setEnabled(true);// 버튼 활성화
+				sayHello();
+			}else{
+				Toast.makeText(this, "not TTS", Toast.LENGTH_SHORT).show();
+				mbtn.setEnabled(false);
+			}
+		}
+		
+	}
+	
+	private void sayHello(){
+		int wordsLength = WORDS.length; // 단어 갯수 획득
+		int rnd = RAND.nextInt(wordsLength);
+		String word = WORDS[rnd];
+		
+		mTTS.speak(word, TextToSpeech.QUEUE_FLUSH, null); // QUEUE_FLUSH : 출력 음성이 있으면 중단되고 새 음성이 출력됨. || QUEUE_ADD : 출력 음성이 끝나고 새로운 음성이 출력됨. 
+	}
+}
