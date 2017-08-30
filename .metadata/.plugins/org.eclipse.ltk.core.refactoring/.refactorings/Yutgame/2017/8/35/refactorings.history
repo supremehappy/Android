@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy 2 elements to &apos;drawable-hdpi&apos;&#x0D;&#x0A;- Original project: &apos;Yutgame&apos;&#x0D;&#x0A;- Destination element: &apos;drawable-hdpi&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     yut_0.png&#x0D;&#x0A;     yut_1.png" description="Copy files" element1="res/drawable-hdpi/yut_0.png" element2="res/drawable-hdpi/yut_1.png" files="2" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1504061264416" target="/Yutgame2/res/drawable-hdpi" units="0" version="1.0"/>
+</session>

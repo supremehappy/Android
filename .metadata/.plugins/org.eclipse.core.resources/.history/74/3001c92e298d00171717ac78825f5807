@@ -1,0 +1,38 @@
+package com.example.dicehandler;
+
+import java.util.Random;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.ImageView;
+
+public class MainActivity extends Activity {
+	int[] dices = {R.drawable.d01, R.drawable.d02, R.drawable.d03, R.drawable.d04, R.drawable.d05, R.drawable.d06 };
+	ImageView = img1, img2;
+	Button btn_start;
+	Random rd = new Random();
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		
+		img1 = (ImageView) findViewById(R.id.imageView1);
+		img2 = (ImageView) findViewById(R.id.imageView2);
+		
+		btn_start=(Button)findViewById(R.id.btn_start);
+		btn_start.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+	}
+}

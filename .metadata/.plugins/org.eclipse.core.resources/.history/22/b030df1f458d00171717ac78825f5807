@@ -1,0 +1,16 @@
+package com.android.supremehappy.rabbitracing;
+
+public class LeftRabbit extends Thread {
+
+	RabbitView rv;
+	
+	LeftRabbit(RabbitView rv){
+		this.rv=rv;
+	}
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		super.run();
+	}
+
+}

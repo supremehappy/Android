@@ -1,0 +1,138 @@
+package com.android.supremehappy.elebator;
+
+import java.util.Random;
+
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.os.Bundle;
+import android.view.View;
+
+public class MainActivity extends Activity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(new MyView(this));
+	}
+	
+	class MyView extends View {
+
+		public int floor_1 = 0; // 첫번째 엘베 현재 층
+		public int floor_2 = 0; // 두번째 엘베 현재 층
+		public boolean flag = false; // 엘베 운행 종료 설정
+		
+		public MyView(Context context) {
+			super(context);
+			
+			Random rand = new Random();
+			
+			Elevator1 t1 = new Elevator1(rand.nextInt(1000),this); // 운행 속도
+			Runnable r = new Elevator2(rand.nextInt(1000),this);
+			Thread t2 = new Thread(r);
+			
+			t1.start();
+			t2.start();
+		}
+		
+		@Override
+		protected void onDraw(Canvas canvas) {
+			
+			Bitmap e1 = BitmapFactory.decodeResource(getResources(), R.drawable.elebator);
+			
+			canvas.drawBitmap(e1, 50, 350-(floor_1),null);//drawBitmap(e1, x좌표, y좌표, 사용하고 있는 paint 객체)
+			canvas.drawBitmap(e1, 50, 350-(floor_2),null);
+			
+			if(flag == true){
+				Paint paint = new Paint(); // 문자열 출력
+				
+				paint.setAntiAlias(true); // 폰트를 부드럽게 처리
+				paint.setTextSize(30);
+				paint.setColor(Color.BLACK);
+				canvas.drawText("운행종료", 100, 50, paint);//drawText(문자열, 좌표, 좌표, 사용하고 있는 paint 객체);
+				
+			}
+			
+			
+		}
+	}
+}
+
+class Elevator1 extends Thread{
+	int speed;
+	MainActivity.MyView mView;
+	Elevator1(int speed, MainActivity.MyView mView){
+		this.speed = speed;
+		this.mView = mView;
+	}
+	
+	@Override
+	public void run() {
+
+		for(int j = 0 ; j <3 ; j++){
+			for(int i = 0 ; i <5 ; i++){//위로
+				mView.floor_1 = i;
+				mView.postInvalidate(); // 스레드간의 직접 호출이 불가능 하므로 간접 호출을 해야 함.
+				try{
+					Thread.sleep(speed); //대기
+				}catch(Exception e){
+					
+				}
+			}
+			for(int k = 4 ; k >=0 ; k--){//아래로
+				mView.floor_1 = k;
+				mView.postInvalidate();
+				try{
+					Thread.sleep(speed); //대기
+				}catch(Exception e){
+					
+				}
+			}
+		}
+		mView.flag = true;
+		mView.postInvalidate();
+		
+	}
+}
+
+class Elevator2 implements Runnable{
+	int speed;
+	MainActivity.MyView mView;
+	
+	Elevator2(int speed,MainActivity.MyView mView){
+		this.speed = speed;
+		this.mView = mView;
+	}
+	
+	@Override
+	public void run() {
+
+		for(int j = 0 ; j <3 ; j++){
+			for(int i = 0 ; i <5 ; i++){//위로
+				mView.floor_2 = i;
+				mView.postInvalidate(); // 스레드간의 직접 호출이 불가능 하므로 간접 호출을 해야 함.
+				try{
+					Thread.sleep(speed); //대기
+				}catch(Exception e){
+					
+				}
+			}
+			for(int k = 4 ; k >=0 ; k--){//아래로
+				mView.floor_2 = k;
+				mView.postInvalidate();
+				try{
+					Thread.sleep(speed); //대기
+				}catch(Exception e){
+					
+				}
+			}
+		}
+		mView.flag = true;
+		mView.postInvalidate();
+	}
+	
+}

@@ -1,0 +1,42 @@
+package com.example.dicehandler;
+
+import java.util.Random;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.ImageView;
+
+public class MainActivity extends Activity {
+	
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		
+		img1 = (ImageView) findViewById(R.id.imageView1);
+		img2 = (ImageView) findViewById(R.id.imageView2);
+		
+		btn_start=(Button)findViewById(R.id.btn_start);
+		btn_start.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				new Thread(new Runnable(){
+					
+					public void run(){
+						
+					}
+					
+				}).start();
+				
+			}
+			
+		});
+	}
+}

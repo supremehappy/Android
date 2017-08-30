@@ -1,0 +1,7 @@
+package com.android.supremehappy.randd;
+
+import android.view.View;
+
+public class RAndDView extends View {
+
+}

@@ -44,8 +44,8 @@ public class MainActivity extends Activity {
 			
 			Bitmap e1 = BitmapFactory.decodeResource(getResources(), R.drawable.elebator);
 			
-			canvas.drawBitmap(e1, 50, 350-(floor_1),null);//drawBitmap(e1, x좌표, y좌표, 사용하고 있는 paint 객체)
-			canvas.drawBitmap(e1, 50, 350-(floor_2),null);
+			canvas.drawBitmap(e1, 50, 400-(floor_1*80),null);//drawBitmap(e1, x좌표, y좌표, 사용하고 있는 paint 객체)
+			canvas.drawBitmap(e1, 350, 400-(floor_2*80),null);
 			
 			if(flag == true){
 				Paint paint = new Paint(); // 문자열 출력
@@ -93,7 +93,7 @@ class Elevator1 extends Thread{
 				}
 			}
 		}
-		mView.flag = false;
+		mView.flag = true;
 		mView.postInvalidate();
 		
 	}
@@ -131,7 +131,7 @@ class Elevator2 implements Runnable{
 				}
 			}
 		}
-		mView.flag = false;
+		mView.flag = true;
 		mView.postInvalidate();
 	}
 	

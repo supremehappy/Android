@@ -1,0 +1,7 @@
+package com.android.supremehappy.rabbitracing;
+
+import android.view.View;
+
+public class RabbitView extends View {
+
+}

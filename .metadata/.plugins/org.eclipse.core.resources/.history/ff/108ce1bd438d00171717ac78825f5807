@@ -1,0 +1,5 @@
+package com.android.supremehappy.rabbitracing;
+
+public class LeftRabbit extends Thread {
+
+}

@@ -1,0 +1,94 @@
+package com.android.supremehappy.yutgame2;
+
+import java.util.Random;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+
+	int[] yut = {R.drawable.yut_0, R.drawable.yut_1};
+	String[] mal = {"모","도","개","걸","윷"};
+	ImageView iv1, iv2,iv3,iv4;
+	Button btn_start;
+	TextView result;
+	int n;
+	Random rd = new Random();
+	Handler h = new Handler(){
+		public void handleMessage(Message msg){
+			if(msg.what==1){
+				drawYut();
+			}
+		}
+	};
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		
+		iv1 = (ImageView) findViewById(R.id.imageView1);
+		iv2 = (ImageView) findViewById(R.id.imageView2);
+		iv3 = (ImageView) findViewById(R.id.imageView3);
+		iv4 = (ImageView) findViewById(R.id.imageView4);
+		
+		result = (TextView) findViewById(R.id.textView1);
+		
+		btn_start=(Button)findViewById(R.id.btn_start);
+		btn_start.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				
+				// TODO Auto-generated method stub
+				new Thread(new Runnable(){
+					
+					public void run(){
+						for(int i = 0; i<10; i++){
+							try{
+								Thread.sleep(100);//0.1초 대기
+								
+								//핸들러 호출
+								h.sendEmptyMessage(1);
+								
+								Random rnd = new Random();
+								
+								int n1 = 1- rnd.nextInt(10)/6;
+								int n2 = 1- rnd.nextInt(10)/6;
+								int n3 = 1- rnd.nextInt(10)/6;
+								int n4 = 1- rnd.nextInt(10)/6;
+								
+								iv1.setImageResource(yut[n1]);
+								iv2.setImageResource(yut[n2]);
+								iv3.setImageResource(yut[n3]);
+								iv4.setImageResource(yut[n4]);
+								
+								n = n1+n2+n3+n4;
+							}catch(Exception e){
+								
+							}
+						}
+					}
+					
+				}).start();
+				
+				result.setText(mal[n]);
+			}
+			
+		});
+	}
+	
+	private void drawYut(){
+		iv1.setImageResource(yut[rd.nextInt(2)]);
+		iv2.setImageResource(yut[rd.nextInt(2)]);
+		iv3.setImageResource(yut[rd.nextInt(2)]);
+		iv4.setImageResource(yut[rd.nextInt(2)]);
+	}
+}

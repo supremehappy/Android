@@ -1,0 +1,40 @@
+package com.android.supremehappy.randd;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.view.View;
+
+public class RAndDView extends View {
+
+	public int r1_y, r2_y, d1_y, d2_y; // 토끼 y 좌표
+	Integer flag = 0; // 왼쪽 토끼가 먼저 도착 하면 1, 오른쪽 토끼가 먼저 도착하면 2
+	String name;
+	Bitmap[] rabbit1=new Bitmap[2];//왼토
+	Bitmap[] rabbit2=new Bitmap[2];//오토
+	Bitmap[] dragon1=new Bitmap[2];//왼드
+	Bitmap[] dragon2=new Bitmap[2];//오드
+	
+	int counter, order;
+	
+	public RAndDView(Context context) {
+		super(context);
+		rabbit1[0]=BitmapFactory.decodeResource(getResources(), R.drawable.rabbit_1);
+		rabbit1[1]=BitmapFactory.decodeResource(getResources(), R.drawable.rabbit_2);
+		rabbit2[0]=BitmapFactory.decodeResource(getResources(), R.drawable.rabbit_1);
+		rabbit2[1]=BitmapFactory.decodeResource(getResources(), R.drawable.rabbit_2);
+		
+		dragon1[0]=BitmapFactory.decodeResource(getResources(), R.drawable.dragon);
+		dragon1[1]=BitmapFactory.decodeResource(getResources(), R.drawable.dragon);
+		dragon2[0]=BitmapFactory.decodeResource(getResources(), R.drawable.r_dragon);
+		dragon2[1]=BitmapFactory.decodeResource(getResources(), R.drawable.r_dragon);
+	}
+
+	@Override
+	protected void onDraw(Canvas canvas) {
+		// TODO Auto-generated method stub
+		super.onDraw(canvas);
+	}
+
+}
