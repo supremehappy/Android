@@ -47,8 +47,8 @@ public class RabbitView extends View {
 	protected void onDraw(Canvas canvas) {
 		counter++;
 		order = (counter%20)/10;
-		canvas.drawBitmap(rabbit1[order], 100, 1300-(r1_y*20),null);
-		canvas.drawBitmap(rabbit2[order], 450, 1300-(r2_y*20),null);
+		canvas.drawBitmap(rabbit1[order], 100, 1300-(r1_y*10),null);
+		canvas.drawBitmap(rabbit2[order], 450, 1300-(r2_y*10),null);
 		
 		if(flag==1){
 			Paint paint = new Paint();

@@ -1,0 +1,7 @@
+package com.android.supremehappy.cardmatch;
+
+import android.view.View;
+
+public class CardGame extends View {
+
+}

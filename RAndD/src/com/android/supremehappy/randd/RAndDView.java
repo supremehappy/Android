@@ -77,7 +77,7 @@ public class RAndDView extends View {
 			paint.setColor(Color.BLUE);
 			canvas.drawText(name+"가 먼저 도착", 100, 50, paint);
 			str=name+" 먼저 도착";
-			itt.putExtra("str", str);
+			
 			
 		}else if(flag==2){
 			Paint paint = new Paint();
@@ -86,7 +86,7 @@ public class RAndDView extends View {
 			paint.setColor(Color.BLUE);
 			canvas.drawText(name+"가 먼저 도착", 100, 50, paint);
 			str=name+" 먼저 도착";
-			itt.putExtra("str", str);
+			
 			
 		}else if(flag==3){
 			Paint paint = new Paint();
@@ -95,7 +95,7 @@ public class RAndDView extends View {
 			paint.setColor(Color.BLUE);
 			canvas.drawText(name+"가 먼저 도착", 100, 50, paint);
 			str=name+" 먼저 도착";
-			itt.putExtra("str", str);
+			
 			
 		}else if(flag==4){
 			Paint paint = new Paint();
@@ -104,12 +104,9 @@ public class RAndDView extends View {
 			paint.setColor(Color.BLUE);
 			canvas.drawText(name+"가 먼저 도착", 100, 50, paint);
 			str=name+" 먼저 도착";
-			itt.putExtra("str", str);
+			
 			
 		}
 	}
-	public void str(String str){
-		MainActivity m = new MainActivity();
-		this.str=m.str;
-	}
+	
 }

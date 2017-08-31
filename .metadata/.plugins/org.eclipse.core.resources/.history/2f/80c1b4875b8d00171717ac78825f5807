@@ -1,0 +1,94 @@
+package com.example.dicehandler;
+
+import java.util.Random;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.ImageView;
+
+public class MainActivity extends Activity {
+	
+	int[] dices = {R.drawable.d01, R.drawable.d02, R.drawable.d03, R.drawable.d04, R.drawable.d05, R.drawable.d06 };
+	ImageView img1, img2;
+	Button btn_start;
+	Bundle myBundle;
+	Random rd = new Random();
+	Handler handler = new Handler(){
+		public void handleMessage(Message msg){
+			if(msg.what==1){//Message 객체 안 what 변수에 1이 있다면
+				drawDice();
+			}
+		}
+	};
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		this.myBundle=savedInstanceState;
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		
+		img1 = (ImageView) findViewById(R.id.imageView1);
+		img2 = (ImageView) findViewById(R.id.imageView2);
+		
+		btn_start=(Button)findViewById(R.id.btn_start);
+		btn_start.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				new Thread(new Runnable(){
+					
+					public void run(){
+						for(int i = 0; i<10; i++){
+							try{
+								Thread.sleep(100);//0.1초 대기
+								
+								//핸들러 호출
+								handler.sendEmptyMessage(1);
+								
+							}catch(Exception e){
+								
+							}
+						}
+					}
+					
+				}).start();
+				
+			}
+			
+		});
+	}
+	
+	private void drawDice(){
+		img1.setImageResource(dices[rd.nextInt(6)]);
+		img2.setImageResource(dices[rd.nextInt(6)]);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.rabbit_menu, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		switch(item.getItemId()){
+		case R.id.exit :
+			finish();
+			break;
+		case R.id.restart :
+			this.onCreate(myBundle);
+			break;
+		}
+		
+		return super.onOptionsItemSelected(item);
+	}
+}

@@ -6,6 +6,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -16,6 +18,7 @@ public class MainActivity extends Activity {
 	int[] dices = {R.drawable.d01, R.drawable.d02, R.drawable.d03, R.drawable.d04, R.drawable.d05, R.drawable.d06 };
 	ImageView img1, img2;
 	Button btn_start;
+	Bundle myBundle;
 	Random rd = new Random();
 	Handler handler = new Handler(){
 		public void handleMessage(Message msg){
@@ -27,7 +30,7 @@ public class MainActivity extends Activity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
+		this.myBundle=savedInstanceState;
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
@@ -68,4 +71,25 @@ public class MainActivity extends Activity {
 		img2.setImageResource(dices[rd.nextInt(6)]);
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.rabbit_menu, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		switch(item.getItemId()){
+		case R.id.exit :
+			finish();
+			break;
+		case R.id.restart :
+			this.onCreate(myBundle);
+			this.btn_start.callOnClick();
+			break;
+		}
+		
+		return super.onOptionsItemSelected(item);
+	}
 }

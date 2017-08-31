@@ -1,0 +1,117 @@
+package com.android.supremehappy.target;
+
+import java.util.ArrayList;
+
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.os.Bundle;
+import android.view.Display;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.WindowManager;
+
+public class MainActivity extends Activity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(new MyTarget(this));
+	}
+	class Bullet{
+		public int x,y;
+		public Bitmap hole;
+		public int bw, bh;
+		
+		Bullet(int _x, int _y){
+			hole = BitmapFactory.decodeResource(getResources(), R.drawable.hole);
+			bw = hole.getWidth()/2 ;
+			bh = hole.getHeight()/2;
+			x=_x;
+			y=_y;
+		}
+	}
+	
+	class MyTarget extends View{
+		int width, height, cx,cy, tw,th;
+
+		ArrayList<Bullet> mBullet; // 탄환배열
+		Bitmap imgBack, imgTarget;
+		int scores[] = {10,8,6,0};  // 점수배열
+		int n = 3, tot=0;
+		Rect[] mRect = new Rect[4];
+		
+		public MyTarget(Context context) {
+			super(context);
+			Display display=((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+			width = display.getWidth();
+			height = display.getHeight();
+			cx=width/2; cy=height/2-30;
+			
+			imgBack = BitmapFactory.decodeResource(getResources(), R.drawable.back);
+			imgBack=Bitmap.createScaledBitmap(imgBack, width, height, true);
+			
+			imgTarget = BitmapFactory.decodeResource(getResources(), R.drawable.target);
+			imgTarget=Bitmap.createScaledBitmap(imgTarget, 280, 280, true);
+			
+			tw = imgTarget.getWidth()/2; // 과녁 중심 x
+			th = imgTarget.getHeight()/2; // 과녁 중심 y
+			
+			mBullet = new ArrayList<Bullet>();
+			
+			for(int i =0; i<3 ; i++){ // 가상 사각형 생성
+				int x1 = cx-i*50-40;
+				int y1 = cy-i*50-40;
+				int x2 = cx+i*50+40;
+				int y2 = cy+i*50+40;
+				mRect[i]= new Rect(x1,y1,x2,y2);
+			}
+		}
+
+		@Override
+		protected void onDraw(Canvas canvas) {
+
+			Paint paint = new Paint();
+			
+			paint.setColor(Color.WHITE);
+			paint.setTextSize(10);
+			canvas.drawBitmap(imgBack, 0, 0,null);
+			canvas.drawText("점수 : "+scores[n],	10	, 30,paint);
+			canvas.drawText("합계 : "+tot,	200	, 30,paint);
+			canvas.drawBitmap(imgTarget, cx-tw, cy-th,null);
+			
+			for(Bullet bullet : mBullet){
+				canvas.drawBitmap(bullet.hole, bullet.x-bullet.bw, bullet.y-bullet.bh,null);
+			}
+		}
+		
+		@Override
+		public boolean onTouchEvent(MotionEvent event) {
+
+			if(event.getAction()==MotionEvent.ACTION_DOWN){
+				int x = (int)event.getX();
+				int y = (int)event.getY();
+				
+				n=3; // 터치한 좌표가 점수 사각형 안에 있는지 검사
+				
+				for(int i = 0; i<3 ; i++){
+					if(mRect[i].contains(x,y)==true){
+						mBullet.add(new Bullet(x,y));
+						n=i;
+						tot=tot+scores[n];
+						break;
+					}
+				}
+			}
+			invalidate();
+
+			return true;
+		}
+	}
+}
+

@@ -1,0 +1,21 @@
+package com.example.soundproject;
+
+import android.app.Activity;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
+import android.os.Bundle;
+import android.widget.Button;
+
+public class MainActivity extends Activity {
+
+	MediaPlayer m_sound_background;
+	SoundPool m_sound_pool;
+	Button btn1, btn2, btn3, exit;
+	int m_sound_id1,m_sound_id1;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+	}
+}

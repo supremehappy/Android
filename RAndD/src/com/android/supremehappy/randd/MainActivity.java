@@ -3,12 +3,8 @@ package com.android.supremehappy.randd;
 import java.util.Locale;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 public class MainActivity extends Activity implements TextToSpeech.OnInitListener{
@@ -24,7 +20,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 		
 		mTTS = new TextToSpeech(this,this);
 		
-		mTTS.speak(str, TextToSpeech.QUEUE_FLUSH, null);
+		
 	}
 
 	@Override
@@ -36,10 +32,23 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 			if(result!=TextToSpeech.LANG_MISSING_DATA || result != TextToSpeech.LANG_NOT_SUPPORTED){// 한국어 정보가 있고 지원하는 언어일때
 				
 				mTTS.speak(str1, TextToSpeech.QUEUE_FLUSH, null);
+				str1();
 			}else{
 				Toast.makeText(this, "not TTS", Toast.LENGTH_SHORT).show();
 				
 			}
 		}
+	}
+	
+	public void str1(){
+		RAndDView r = null;
+		this.str=r.str;
+		
+		if(str == null){
+			mTTS.speak("error", TextToSpeech.QUEUE_FLUSH, null);
+		}else{
+			mTTS.speak(str, TextToSpeech.QUEUE_FLUSH, null);
+		}
+		
 	}
 }

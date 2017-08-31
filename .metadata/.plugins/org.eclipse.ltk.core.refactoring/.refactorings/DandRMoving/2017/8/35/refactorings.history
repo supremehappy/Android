@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename package &apos;com.android.supremehappy.dragonmoving&apos; to &apos;com.android.supremehappy.dandrmoving1&apos;&#x0D;&#x0A;- Original project: &apos;DandRMoving&apos;&#x0D;&#x0A;- Original element: &apos;DandRMoving/src/com.android.supremehappy.dragonmoving&apos;&#x0D;&#x0A;- Renamed element: &apos;DandRMoving/src/com.android.supremehappy.dandrmoving1&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename package &apos;com.android.supremehappy.dragonmoving&apos;" flags="589830" hierarchical="false" id="org.eclipse.jdt.ui.rename.package" input="/src&lt;com.android.supremehappy.dragonmoving" name="com.android.supremehappy.dandrmoving1" qualified="false" references="true" stamp="1504162532178" textual="false" version="1.0"/>
+</session>

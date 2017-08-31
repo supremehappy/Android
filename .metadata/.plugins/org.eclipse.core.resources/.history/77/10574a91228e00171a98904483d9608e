@@ -1,0 +1,271 @@
+package com.android.supremehappy.dandrmoving;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.view.Display;
+import android.view.SurfaceHolder;
+import android.view.SurfaceHolder.Callback;
+import android.view.SurfaceView;
+import android.view.WindowManager;
+
+public class MyDragon extends SurfaceView implements Callback {
+
+	SurfaceHolder mHolder;
+	GameThread gt;
+	//GameThread1 gt1;
+	
+	
+	class GameThread extends Thread{
+	
+		SurfaceHolder mHolder;
+		int width, height, x,y,dw,dh,sx,sy, num;
+		int width1, height1, x1,y1,dw1,dh1,sx1,sy1, num1;
+		Bitmap imgBack;
+		Bitmap[] dragons = new Bitmap[2];
+		Bitmap[] rabbit = new Bitmap[2];
+		boolean canRun=true;
+		
+		GameThread(SurfaceHolder holder, Context context){
+			mHolder = holder;
+			Display display = ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+			width = display.getWidth(); 
+			height = display.getHeight();
+			imgBack = BitmapFactory.decodeResource(getResources(), R.drawable.back_1);
+			
+			imgBack=Bitmap.createScaledBitmap(imgBack, width, height, false); // 폰 화면에 알맞게 이미지 조정
+			
+			dragons[0] = BitmapFactory.decodeResource(getResources(), R.drawable.dragon);
+			rabbit[0] = BitmapFactory.decodeResource(getResources(), R.drawable.rabbit_1);
+			
+			dw=dragons[0].getWidth()/2;
+			dh=dragons[0].getHeight()/2;
+			dw1=rabbit[0].getWidth()/2;
+			dh1=rabbit[0].getHeight()/2;
+			
+			Matrix matrix = new Matrix();// 이미지 뒤집기 위해 생성
+			matrix.postScale(-1, 1);// x 방향으로 뒤집기
+			
+			dragons[1] = Bitmap.createBitmap(dragons[0],0,0,dw*2,dh*2,matrix,false);
+			rabbit[1] = Bitmap.createBitmap(rabbit[0],0,0,dw1*2,dh1*2,matrix,false);
+			
+			num=0;
+			sx=3; sy=3;
+			x=y=100;
+			
+			num1=0;
+			sx1=4; sy1=4;
+			x1=y1=100;
+		}
+		
+		public void moveRabbit(){
+			x1=x1+sx1;
+			y1=y1+sy1;
+			
+			if(x1<=dw1){
+				x1=dw1;
+				sx1=-sx1;
+				num1=1-num1;
+			}
+			if(x1>=width1-dw1){
+				x1=width1-dw1;
+				sx1=-sx1;
+				num1=1-num1;
+			}
+			if(y1<=dh1){
+				y1=dh1;
+				sy1=-sy1;
+			}
+			if(y1>=height1-dh1){
+				y1=height1-dh1;
+				sy1=-sy1;
+			}
+		}
+		
+		public void moveDragon(){
+			x=x+sx;
+			y=y+sy;
+			
+			if(x<=dw){
+				x=dw;
+				sx=-sx;
+				num=1-num;
+			}
+			if(x>=width-dw){
+				x=width-dw;
+				sx=-sx;
+				num=1-num;
+			}
+			if(y<=dh){
+				y=dh;
+				sy=-sy;
+			}
+			if(y>=height-dh){
+				y=height-dh;
+				sy=-sy;
+			}
+		}
+		
+		public void stopDragon(){
+			canRun = false;
+			synchronized(this){
+				this.notify();
+			}
+		}
+		
+		@Override
+		public void run(){
+			Canvas canvas =null;
+			
+			while(canRun){
+				canvas = mHolder.lockCanvas(); // 다른 스레드가 접근 못하게함
+				
+				try{
+					synchronized(mHolder){ // 동기화
+						moveDragon();
+						moveRabbit();
+						if(canvas!=null){
+							canvas.drawBitmap(imgBack, 0, 0,null);
+							canvas.drawBitmap(dragons[num],x-dw, y-dh,null);
+							canvas.drawBitmap(rabbit[num],x1-dw1, y1-dh1,null);
+						}
+					}
+				}finally{
+					if(canvas != null){
+						mHolder.unlockCanvasAndPost(canvas); // 잠금 해제
+					}
+				}
+			}
+		}
+	}
+	
+/*	class GameThread1 extends Thread{
+		
+		SurfaceHolder mHolder;
+		int width, height, x,y,dw,dh,sx,sy, num;
+		Bitmap imgBack;
+		Bitmap[] rabbit = new Bitmap[2];
+		
+		GameThread1(SurfaceHolder holder, Context context){
+			mHolder = holder;
+			Display display = ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+			width = display.getWidth(); 
+			height = display.getHeight();
+			imgBack = BitmapFactory.decodeResource(getResources(), R.drawable.back_1);
+			
+			imgBack=Bitmap.createScaledBitmap(imgBack, width, height, false); // 폰 화면에 알맞게 이미지 조정
+			
+			rabbit[0] = BitmapFactory.decodeResource(getResources(), R.drawable.rabbit_1);
+			
+			dw=rabbit[0].getWidth()/2;
+			dh=rabbit[0].getHeight()/2;
+			
+			Matrix matrix = new Matrix();// 이미지 뒤집기 위해 생성
+			matrix.postScale(-1, 1);// x 방향으로 뒤집기
+			
+			rabbit[1] = Bitmap.createBitmap(rabbit[0],0,0,dw*2,dh*2,matrix,false);
+			
+			num=0;
+			sx=3; sy=3;
+			x=y=400;
+		}
+		
+		public void moveRabbit(){
+			x=x+sx;
+			y=y+sy;
+			
+			if(x<=dw){
+				x=dw;
+				sx=-sx;
+				num=1-num;
+			}
+			if(x>=width-dw){
+				x=width-dw;
+				sx=-sx;
+				num=1-num;
+			}
+			if(y<=dh){
+				y=dh;
+				sy=-sy;
+			}
+			if(y>=height-dh){
+				y=height-dh;
+				sy=-sy;
+			}
+		}
+		
+		@Override
+		public void run(){
+			Canvas canvas =null;
+			
+			while(true){
+				canvas = mHolder.lockCanvas(); // 다른 스레드가 접근 못하게함
+				
+				try{
+					synchronized(mHolder){ // 동기화
+						moveRabbit();
+						if(canvas!=null){
+							canvas.drawBitmap(imgBack, 0, 0,null);
+							canvas.drawBitmap(rabbit[num],x-dw, y-dh,null);
+						}
+					}
+				}finally{
+					if(canvas != null){
+						mHolder.unlockCanvasAndPost(canvas); // 잠금 해제
+					}
+				}
+			}
+		}
+	}*/
+	
+	public MyDragon(Context context) {
+		super(context);
+		SurfaceHolder holder = this.getHolder(); // SurfaceHolder 생성
+		holder.addCallback(this);// 콜백 메서드 설정
+		mHolder = holder;
+		gt = new GameThread(holder,context); // 스레드 생성
+		gt.setDaemon(true);  // 데몬스레드로 만듬 (데몬스레드 : 종속된 스레드 / 일반스레드 : 독립된 스레드)
+		setFocusable(true); // 생성된 뷰로 포커스 이동
+		
+/*		gt1 = new GameThread1(holder,context); // 스레드 생성
+		gt1.setDaemon(true);  // 데몬스레드로 만듬 (데몬스레드 : 종속된 스레드 / 일반스레드 : 독립된 스레드)
+		setFocusable(true); // 생성된 뷰로 포커스 이동
+*/	}
+
+	@Override
+	public void surfaceCreated(SurfaceHolder holder) {
+
+		gt.start();
+		//gt1.start();
+
+	}
+
+	@Override
+	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void surfaceDestroyed(SurfaceHolder holder) {//surfaceView 가 해제 될 때 자동 실행
+		
+		boolean done = true;
+		while(done){
+			try{
+				gt.join();// 종료 될 때까지 대기
+				//gt1.join();// 종료 될 때까지 대기
+				done=false;
+			}catch(Exception e){
+				
+			}
+		}
+		
+	}
+	
+	public void stopDragon(){
+		gt.stopDragon();
+	}
+
+}
