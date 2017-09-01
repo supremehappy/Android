@@ -1,0 +1,206 @@
+package com.android.supremehappy.bubbleshouting;
+
+import java.util.Random;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.SoundPool;
+
+public class Bubble {
+
+	public int x,y,rad; // 풍선 좌표, 반지름
+	public Bitmap imgBall; // 풍선 비트맵
+	public boolean dead = false; // 풍선 생존 여부
+	
+	private int _rad; // 원래 반지름
+	private int sx,sy; // 이동방향 및 속도
+	private int width, height; // 창 크기
+	
+	private Bitmap[] bubbles = new Bitmap[6]; // 풍선 애니메이션용 배열
+	private int[] b = {R.drawable.b0, R.drawable.b1, R.drawable.b2, R.drawable.b3, R.drawable.b4, R.drawable.b5 };
+	private int imgNum = 0 ; // 사용할 풍선 이미지 인덱스
+	private int loop=0; // 반복에 사용될 카운터
+	private int counter=0; // 벽 충돌 횟수 
+	
+	public Bubble(Context context, int _x, int _y, int _width, int _height){
+		width = _width;
+		height = _height;
+		x = _x;
+		y = _y;
+		
+		Random rnd = new Random();
+		Random rnd1 = new Random();
+		
+		int r = rnd1.nextInt(6);
+		
+		imgBall = BitmapFactory.decodeResource(context.getResources(), b[r]);
+		
+		_rad = rnd.nextInt(11)+20; // 무작위 반지름
+		rad = _rad;
+		
+		//---------- 풍선 애니메이션 처리(풍선 작아졌다가 커지는 효과)
+		for(int i = 0; i<=3;i++){
+			bubbles[i]= Bitmap.createScaledBitmap(imgBall, _rad*2+i*2, _rad*2+i*2, false);
+		}
+		
+		bubbles[4] = bubbles[2];
+		bubbles[5] = bubbles[1];
+		imgBall = bubbles[0];
+		
+		sx=rnd.nextInt(2);
+		
+		if(sx==0){
+			sx=-1;
+		}else{
+			sx=1;
+		}
+		
+		sy=rnd.nextInt(2);
+		
+		if(sy==0){
+			sy=-2;
+		}else{
+			sy=2;
+		}
+		
+		//---------- 풍선 이동
+		moveBubble();
+	}
+	
+	public void moveBubble(){
+		loop++;
+		
+		if(loop % 3 ==0){
+			imgNum++; // 풍선 인덱스 증가
+			
+			if(imgNum > 5){ // 최대인덱스를 넘으면 0으로 초기화
+				imgNum=0;
+			}
+			
+			imgBall = bubbles[imgNum];
+			
+			int k = imgNum;
+			
+			if(k > 3){
+				imgNum =6 - imgNum;
+			}
+			
+			rad = _rad+k*2; // 반지름 설정
+		}
+		
+		// 풍선 이동 후 좌표
+		x= x+sx;
+		y= y+sy;
+		
+		if(x>=width - rad){
+				sx=-sx;
+				x=x+sx;
+		}
+		/*if(x<=rad || x>= width -rad){ // 좌 || 우 충돌시
+			sx=-sx; // 방향 변경
+			x= x+sx;  // 좌표수정
+			counter++; // 충돌 횟수 증가
+		}*/
+		if(y<=rad || y>=height -rad){ // 상 || 하 충돌시
+			sy = -sy;
+			y = y +sy;
+			//counter++;
+		}
+		/*if(counter>=3){
+			dead = true;
+		}*/
+	}
+}
+
+//---------------------------  
+class SmallBall{
+	public int x,y,rad;
+	public boolean dead = false;
+	public Bitmap imgBall;
+	
+	private int width, height;
+	private int sx, sy;
+	private int cr; // 반지름
+	private double r; // 이동 각도
+	private int speed; // 이동 속도
+	private int num; // 이미지 번호
+	private int life; // 생명주기
+	
+//	SoundPool m_sound_pool;
+//	int m_sound_id1,m_sound_play_id1;
+	
+	public SmallBall(Context context, int _x, int _y, int ang, int _width, int _height){
+		sx=_x; 
+		sy=_y; 
+		width = _width; 
+		height=_height; 
+		r =ang*Math.PI /180;
+		
+		Random rnd = new Random();
+		
+		speed = rnd.nextInt(5)+2;
+		rad = rnd.nextInt(10)+5;
+		num = rnd.nextInt(6);
+		life = rnd.nextInt(31)+20; 
+		
+		imgBall = BitmapFactory.decodeResource(context.getResources(), R.drawable.b0+num);
+		imgBall = Bitmap.createScaledBitmap(imgBall, rad*2, rad*2, false);
+		
+		cr=10;
+		
+//		m_sound_id1 = m_sound_pool.load(context, R.raw.bubble,1);
+		
+		moveBall();
+		
+	}
+	
+	public void moveBall(){
+		life --;
+		
+		cr = cr+ speed;
+		
+		x=(int)(sx+Math.cos(r)*cr);
+		y=(int)(sy+Math.sin(r)*cr);
+		
+		if(x<-rad || x>width + rad || y <-rad || y> height + rad || life<=0){ // 좌표를 벗어나거나 - 값을 갖거나 생명주기가 0 일때 삭제
+//			m_sound_play_id1=m_sound_pool.play(m_sound_id1, 1, 1, 0, 0, 1);
+			dead= true;
+		}
+	}
+}
+
+//---------------------------
+class WaterBall{
+	
+	public int x,y,rad;
+	public boolean dead = false;
+	public Bitmap imgBall;
+	
+	private int width, height;
+	private int speed;
+	
+	public WaterBall(Context context, int _x, int _y, int _width, int _height){
+		x=_x; 
+		y=_y; 
+		width = _width; 
+		height=_height; 
+		
+		imgBall = BitmapFactory.decodeResource(context.getResources(), R.drawable.w0);
+		rad = imgBall.getWidth()/2;
+		speed =8;
+		
+		moveBall();
+		
+	}
+	
+	public void moveBall(){
+		y=y-speed; // y좌표만 감소(탄환은 위로만 이동
+		
+		if(y<0){
+			dead = true;
+		}
+	}
+	
+}
+

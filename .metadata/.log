@@ -4819,3 +4819,288 @@ org.eclipse.recommenders.utils.Logs$LogTraceException
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
 	at java.lang.Thread.run(Unknown Source)
+
+!ENTRY org.eclipse.equinox.p2.repository 2 0 2017-09-01 09:31:17.541
+!MESSAGE Server returned lastModified <= 0 for http://www.sriramramani.com/droidinspector/eclipse/content.jar
+
+!ENTRY org.eclipse.equinox.p2.transport.ecf 2 0 2017-09-01 09:31:18.620
+!MESSAGE Connection to http://www.sriramramani.com/droidinspector/eclipse/content.jar failed on null. Retry attempt 0 started
+!STACK 0
+org.apache.http.client.ClientProtocolException
+	at org.apache.http.impl.client.AbstractHttpClient.doExecute(AbstractHttpClient.java:867)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer.performConnect(HttpClientRetrieveFileTransfer.java:1084)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer.access$0(HttpClientRetrieveFileTransfer.java:1075)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer$1.performFileTransfer(HttpClientRetrieveFileTransfer.java:1071)
+	at org.eclipse.ecf.filetransfer.FileTransferJob.run(FileTransferJob.java:74)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+Caused by: org.apache.http.client.CircularRedirectException: Circular redirect to 'http://www.sriramramani.com/WjOeZ/droidinspector/eclipse/content.jar'
+	at org.apache.http.impl.client.DefaultRedirectStrategy.getLocationURI(DefaultRedirectStrategy.java:174)
+	at org.apache.http.impl.client.DefaultRedirectStrategy.getRedirect(DefaultRedirectStrategy.java:217)
+	at org.apache.http.impl.client.DefaultRequestDirector.handleResponse(DefaultRequestDirector.java:1084)
+	at org.apache.http.impl.client.DefaultRequestDirector.execute(DefaultRequestDirector.java:515)
+	at org.apache.http.impl.client.AbstractHttpClient.doExecute(AbstractHttpClient.java:863)
+	... 6 more
+
+!ENTRY org.eclipse.equinox.p2.ui 4 0 2017-09-01 09:31:19.608
+!MESSAGE Unable to read repository at http://www.sriramramani.com/droidinspector/eclipse/.
+!STACK 1
+org.eclipse.equinox.p2.core.ProvisionException: Unable to read repository at http://www.sriramramani.com/droidinspector/eclipse/.
+	at org.eclipse.equinox.internal.p2.metadata.repository.SimpleMetadataRepositoryFactory.load(SimpleMetadataRepositoryFactory.java:128)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.factoryLoad(MetadataRepositoryManager.java:57)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.loadRepository(AbstractRepositoryManager.java:768)
+	at sun.reflect.GeneratedMethodAccessor52.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.oomph.util.ReflectUtil.invokeMethod(ReflectUtil.java:117)
+	at org.eclipse.oomph.p2.internal.core.CachingRepositoryManager.loadRepository(CachingRepositoryManager.java:396)
+	at org.eclipse.oomph.p2.internal.core.CachingRepositoryManager.loadRepository(CachingRepositoryManager.java:199)
+	at org.eclipse.oomph.p2.internal.core.CachingRepositoryManager$Metadata.loadRepository(CachingRepositoryManager.java:463)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:96)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:92)
+	at org.eclipse.equinox.p2.ui.ProvisioningUI.loadMetadataRepository(ProvisioningUI.java:440)
+	at org.eclipse.equinox.internal.p2.ui.model.MetadataRepositoryElement.getMetadataRepository(MetadataRepositoryElement.java:126)
+	at org.eclipse.equinox.internal.p2.ui.model.MetadataRepositoryElement.fetchChildren(MetadataRepositoryElement.java:75)
+	at org.eclipse.equinox.internal.p2.ui.model.RemoteQueriedElement.fetchDeferredChildren(RemoteQueriedElement.java:34)
+	at org.eclipse.ui.progress.DeferredTreeContentManager$1.run(DeferredTreeContentManager.java:231)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+Caused by: java.io.IOException: http://www.sriramramani.com/droidinspector/eclipse/ is not a valid repository location.
+	at org.eclipse.equinox.internal.p2.metadata.repository.SimpleMetadataRepositoryFactory.load(SimpleMetadataRepositoryFactory.java:102)
+	... 17 more
+!SUBENTRY 1 org.eclipse.equinox.p2.metadata.repository 4 1002 2017-09-01 09:31:19.608
+!MESSAGE Unable to read repository at http://www.sriramramani.com/droidinspector/eclipse/.
+!STACK 0
+java.io.IOException: http://www.sriramramani.com/droidinspector/eclipse/ is not a valid repository location.
+	at org.eclipse.equinox.internal.p2.metadata.repository.SimpleMetadataRepositoryFactory.load(SimpleMetadataRepositoryFactory.java:102)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.factoryLoad(MetadataRepositoryManager.java:57)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.loadRepository(AbstractRepositoryManager.java:768)
+	at sun.reflect.GeneratedMethodAccessor52.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.oomph.util.ReflectUtil.invokeMethod(ReflectUtil.java:117)
+	at org.eclipse.oomph.p2.internal.core.CachingRepositoryManager.loadRepository(CachingRepositoryManager.java:396)
+	at org.eclipse.oomph.p2.internal.core.CachingRepositoryManager.loadRepository(CachingRepositoryManager.java:199)
+	at org.eclipse.oomph.p2.internal.core.CachingRepositoryManager$Metadata.loadRepository(CachingRepositoryManager.java:463)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:96)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:92)
+	at org.eclipse.equinox.p2.ui.ProvisioningUI.loadMetadataRepository(ProvisioningUI.java:440)
+	at org.eclipse.equinox.internal.p2.ui.model.MetadataRepositoryElement.getMetadataRepository(MetadataRepositoryElement.java:126)
+	at org.eclipse.equinox.internal.p2.ui.model.MetadataRepositoryElement.fetchChildren(MetadataRepositoryElement.java:75)
+	at org.eclipse.equinox.internal.p2.ui.model.RemoteQueriedElement.fetchDeferredChildren(RemoteQueriedElement.java:34)
+	at org.eclipse.ui.progress.DeferredTreeContentManager$1.run(DeferredTreeContentManager.java:231)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY org.eclipse.equinox.p2.repository 2 0 2017-09-01 09:31:19.950
+!MESSAGE Server returned lastModified <= 0 for http://www.sriramramani.com/droidinspector/eclipse/content.jar
+
+!ENTRY org.eclipse.equinox.p2.transport.ecf 2 0 2017-09-01 09:31:20.629
+!MESSAGE Connection to http://www.sriramramani.com/droidinspector/eclipse/content.jar failed on null. Retry attempt 0 started
+!STACK 0
+org.apache.http.client.ClientProtocolException
+	at org.apache.http.impl.client.AbstractHttpClient.doExecute(AbstractHttpClient.java:867)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer.performConnect(HttpClientRetrieveFileTransfer.java:1084)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer.access$0(HttpClientRetrieveFileTransfer.java:1075)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer$1.performFileTransfer(HttpClientRetrieveFileTransfer.java:1071)
+	at org.eclipse.ecf.filetransfer.FileTransferJob.run(FileTransferJob.java:74)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+Caused by: org.apache.http.client.CircularRedirectException: Circular redirect to 'http://www.sriramramani.com/droidinspector/eclipse/content.jar'
+	at org.apache.http.impl.client.DefaultRedirectStrategy.getLocationURI(DefaultRedirectStrategy.java:174)
+	at org.apache.http.impl.client.DefaultRedirectStrategy.getRedirect(DefaultRedirectStrategy.java:217)
+	at org.apache.http.impl.client.DefaultRequestDirector.handleResponse(DefaultRequestDirector.java:1084)
+	at org.apache.http.impl.client.DefaultRequestDirector.execute(DefaultRequestDirector.java:515)
+	at org.apache.http.impl.client.AbstractHttpClient.doExecute(AbstractHttpClient.java:863)
+	... 6 more
+
+!ENTRY org.eclipse.equinox.p2.ui 4 0 2017-09-01 09:31:21.462
+!MESSAGE Unable to read repository at http://www.sriramramani.com/droidinspector/eclipse/content.jar.
+!STACK 1
+org.eclipse.equinox.p2.core.ProvisionException: Unable to read repository at http://www.sriramramani.com/droidinspector/eclipse/content.jar.
+	at org.eclipse.equinox.internal.p2.repository.CacheManager.updateCache(CacheManager.java:428)
+	at org.eclipse.equinox.internal.p2.repository.CacheManager.createCache(CacheManager.java:259)
+	at org.eclipse.equinox.internal.p2.metadata.repository.SimpleMetadataRepositoryFactory.getLocalFile(SimpleMetadataRepositoryFactory.java:66)
+	at org.eclipse.equinox.internal.p2.metadata.repository.SimpleMetadataRepositoryFactory.load(SimpleMetadataRepositoryFactory.java:88)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.factoryLoad(MetadataRepositoryManager.java:57)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.loadRepository(AbstractRepositoryManager.java:768)
+	at sun.reflect.GeneratedMethodAccessor52.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.oomph.util.ReflectUtil.invokeMethod(ReflectUtil.java:117)
+	at org.eclipse.oomph.p2.internal.core.CachingRepositoryManager.loadRepository(CachingRepositoryManager.java:396)
+	at org.eclipse.oomph.p2.internal.core.CachingRepositoryManager.loadRepository(CachingRepositoryManager.java:199)
+	at org.eclipse.oomph.p2.internal.core.CachingRepositoryManager$Metadata.loadRepository(CachingRepositoryManager.java:463)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:96)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:92)
+	at org.eclipse.equinox.p2.ui.ProvisioningUI.loadMetadataRepository(ProvisioningUI.java:440)
+	at org.eclipse.equinox.internal.p2.ui.model.MetadataRepositoryElement.getMetadataRepository(MetadataRepositoryElement.java:126)
+	at org.eclipse.equinox.internal.p2.ui.model.MetadataRepositoryElement.getRepository(MetadataRepositoryElement.java:115)
+	at org.eclipse.equinox.internal.p2.ui.model.MetadataRepositoryElement.getQueryable(MetadataRepositoryElement.java:109)
+	at org.eclipse.equinox.internal.p2.ui.QueryProvider.getQueryDescriptor(QueryProvider.java:88)
+	at org.eclipse.equinox.internal.p2.ui.model.QueriedElement.fetchChildren(QueriedElement.java:101)
+	at org.eclipse.equinox.internal.p2.ui.model.MetadataRepositoryElement.fetchChildren(MetadataRepositoryElement.java:77)
+	at org.eclipse.equinox.internal.p2.ui.model.RemoteQueriedElement.fetchDeferredChildren(RemoteQueriedElement.java:34)
+	at org.eclipse.ui.progress.DeferredTreeContentManager$1.run(DeferredTreeContentManager.java:231)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+Caused by: org.apache.http.client.ClientProtocolException
+	at org.apache.http.impl.client.AbstractHttpClient.doExecute(AbstractHttpClient.java:867)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer.performConnect(HttpClientRetrieveFileTransfer.java:1084)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer.access$0(HttpClientRetrieveFileTransfer.java:1075)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer$1.performFileTransfer(HttpClientRetrieveFileTransfer.java:1071)
+	at org.eclipse.ecf.filetransfer.FileTransferJob.run(FileTransferJob.java:74)
+	... 1 more
+Caused by: org.apache.http.client.CircularRedirectException: Circular redirect to 'http://www.sriramramani.com/droidinspector/eclipse/content.jar'
+	at org.apache.http.impl.client.DefaultRedirectStrategy.getLocationURI(DefaultRedirectStrategy.java:174)
+	at org.apache.http.impl.client.DefaultRedirectStrategy.getRedirect(DefaultRedirectStrategy.java:217)
+	at org.apache.http.impl.client.DefaultRequestDirector.handleResponse(DefaultRequestDirector.java:1084)
+	at org.apache.http.impl.client.DefaultRequestDirector.execute(DefaultRequestDirector.java:515)
+	at org.apache.http.impl.client.AbstractHttpClient.doExecute(AbstractHttpClient.java:863)
+	... 6 more
+!SUBENTRY 1 org.eclipse.equinox.p2.transport.ecf 4 1002 2017-09-01 09:31:21.462
+!MESSAGE Unable to read repository at http://www.sriramramani.com/droidinspector/eclipse/content.jar.
+!STACK 0
+org.apache.http.client.ClientProtocolException
+	at org.apache.http.impl.client.AbstractHttpClient.doExecute(AbstractHttpClient.java:867)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer.performConnect(HttpClientRetrieveFileTransfer.java:1084)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer.access$0(HttpClientRetrieveFileTransfer.java:1075)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer$1.performFileTransfer(HttpClientRetrieveFileTransfer.java:1071)
+	at org.eclipse.ecf.filetransfer.FileTransferJob.run(FileTransferJob.java:74)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+Caused by: org.apache.http.client.CircularRedirectException: Circular redirect to 'http://www.sriramramani.com/droidinspector/eclipse/content.jar'
+	at org.apache.http.impl.client.DefaultRedirectStrategy.getLocationURI(DefaultRedirectStrategy.java:174)
+	at org.apache.http.impl.client.DefaultRedirectStrategy.getRedirect(DefaultRedirectStrategy.java:217)
+	at org.apache.http.impl.client.DefaultRequestDirector.handleResponse(DefaultRequestDirector.java:1084)
+	at org.apache.http.impl.client.DefaultRequestDirector.execute(DefaultRequestDirector.java:515)
+	at org.apache.http.impl.client.AbstractHttpClient.doExecute(AbstractHttpClient.java:863)
+	... 6 more
+
+!ENTRY org.eclipse.equinox.p2.repository 2 0 2017-09-01 09:31:32.152
+!MESSAGE Server returned lastModified <= 0 for http://www.sriramramani.com/droidinspector/eclipse/content.jar
+
+!ENTRY org.eclipse.equinox.p2.core 4 0 2017-09-01 09:31:35.064
+!MESSAGE Provisioning exception
+!STACK 1
+org.eclipse.equinox.p2.core.ProvisionException: Unable to read repository at http://www.sriramramani.com/droidinspector/eclipse/.
+	at org.eclipse.equinox.internal.p2.metadata.repository.SimpleMetadataRepositoryFactory.load(SimpleMetadataRepositoryFactory.java:128)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.factoryLoad(MetadataRepositoryManager.java:57)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.loadRepository(AbstractRepositoryManager.java:768)
+	at sun.reflect.GeneratedMethodAccessor52.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.oomph.util.ReflectUtil.invokeMethod(ReflectUtil.java:117)
+	at org.eclipse.oomph.p2.internal.core.CachingRepositoryManager.loadRepository(CachingRepositoryManager.java:396)
+	at org.eclipse.oomph.p2.internal.core.CachingRepositoryManager.loadRepository(CachingRepositoryManager.java:199)
+	at org.eclipse.oomph.p2.internal.core.CachingRepositoryManager$Metadata.loadRepository(CachingRepositoryManager.java:463)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:96)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:92)
+	at org.eclipse.equinox.p2.ui.LoadMetadataRepositoryJob.doLoad(LoadMetadataRepositoryJob.java:117)
+	at org.eclipse.equinox.p2.ui.LoadMetadataRepositoryJob.runModal(LoadMetadataRepositoryJob.java:102)
+	at org.eclipse.equinox.internal.p2.ui.sdk.PreloadingRepositoryHandler$2.runModal(PreloadingRepositoryHandler.java:83)
+	at org.eclipse.equinox.p2.operations.ProvisioningJob.run(ProvisioningJob.java:177)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+Caused by: java.io.IOException: http://www.sriramramani.com/droidinspector/eclipse/ is not a valid repository location.
+	at org.eclipse.equinox.internal.p2.metadata.repository.SimpleMetadataRepositoryFactory.load(SimpleMetadataRepositoryFactory.java:102)
+	... 16 more
+!SUBENTRY 1 org.eclipse.equinox.p2.metadata.repository 4 1002 2017-09-01 09:31:35.064
+!MESSAGE Unable to read repository at http://www.sriramramani.com/droidinspector/eclipse/.
+!STACK 0
+java.io.IOException: http://www.sriramramani.com/droidinspector/eclipse/ is not a valid repository location.
+	at org.eclipse.equinox.internal.p2.metadata.repository.SimpleMetadataRepositoryFactory.load(SimpleMetadataRepositoryFactory.java:102)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.factoryLoad(MetadataRepositoryManager.java:57)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.loadRepository(AbstractRepositoryManager.java:768)
+	at sun.reflect.GeneratedMethodAccessor52.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.oomph.util.ReflectUtil.invokeMethod(ReflectUtil.java:117)
+	at org.eclipse.oomph.p2.internal.core.CachingRepositoryManager.loadRepository(CachingRepositoryManager.java:396)
+	at org.eclipse.oomph.p2.internal.core.CachingRepositoryManager.loadRepository(CachingRepositoryManager.java:199)
+	at org.eclipse.oomph.p2.internal.core.CachingRepositoryManager$Metadata.loadRepository(CachingRepositoryManager.java:463)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:96)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:92)
+	at org.eclipse.equinox.p2.ui.LoadMetadataRepositoryJob.doLoad(LoadMetadataRepositoryJob.java:117)
+	at org.eclipse.equinox.p2.ui.LoadMetadataRepositoryJob.runModal(LoadMetadataRepositoryJob.java:102)
+	at org.eclipse.equinox.internal.p2.ui.sdk.PreloadingRepositoryHandler$2.runModal(PreloadingRepositoryHandler.java:83)
+	at org.eclipse.equinox.p2.operations.ProvisioningJob.run(ProvisioningJob.java:177)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2017-09-01 09:33:55.902
+!MESSAGE Failed to load properties file for project 'BubbleShooting'
+
+!ENTRY org.tigris.subversion.subclipse.core 4 0 2017-09-01 09:33:56.870
+!MESSAGE Could not auto-share project BubbleShooting
+!STACK 1
+org.tigris.subversion.subclipse.core.SVNException: Provided SVN information does not match that on disk for project 'BubbleShooting'.
+	at org.tigris.subversion.subclipse.core.resources.SVNWorkspaceRoot.setSharing(SVNWorkspaceRoot.java:206)
+	at org.tigris.subversion.subclipse.core.SVNTeamProviderType$AutoShareJob.autoconnectSVNProject(SVNTeamProviderType.java:140)
+	at org.tigris.subversion.subclipse.core.SVNTeamProviderType$AutoShareJob.run(SVNTeamProviderType.java:106)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 1 org.tigris.subversion.subclipse.core 4 4 2017-09-01 09:33:56.870
+!MESSAGE Provided SVN information does not match that on disk for project 'BubbleShooting'.
+
+!ENTRY org.eclipse.recommenders.rcp 4 18 2017-09-01 11:31:02.724
+!MESSAGE Failed to resolve selection in ‘=BubbleShooting/src<com.android.supremehappy.bubbleshouting{Bubble.java’ at offset 3,172.
+!STACK 0
+org.eclipse.recommenders.utils.Logs$LogTraceException
+	at org.eclipse.recommenders.utils.Logs$LogTraceException.newTrace(Logs.java:381)
+	at org.eclipse.recommenders.utils.Logs.log(Logs.java:134)
+	at org.eclipse.recommenders.internal.rcp.JavaElementSelections.resolveJavaElementFromTypeRootInEditor(JavaElementSelections.java:164)
+	at org.eclipse.recommenders.internal.rcp.JavaElementSelections.resolveJavaElementFromEditor(JavaElementSelections.java:119)
+	at org.eclipse.recommenders.internal.rcp.JavaElementSelections.resolveJavaElementFromEditor(JavaElementSelections.java:102)
+	at org.eclipse.recommenders.internal.rcp.JavaElementSelectionService.handleSelectionInEditor(JavaElementSelectionService.java:108)
+	at org.eclipse.recommenders.internal.rcp.JavaElementSelectionService.access$1(JavaElementSelectionService.java:105)
+	at org.eclipse.recommenders.internal.rcp.JavaElementSelectionService$1.run(JavaElementSelectionService.java:82)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)
+	at java.util.concurrent.FutureTask.run(Unknown Source)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(Unknown Source)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2017-09-01 13:37:35.567
+!MESSAGE Failed to load properties file for project 'BubbleShooting2'
+
+!ENTRY org.tigris.subversion.subclipse.core 4 0 2017-09-01 13:37:36.530
+!MESSAGE Could not auto-share project BubbleShooting2
+!STACK 1
+org.tigris.subversion.subclipse.core.SVNException: Provided SVN information does not match that on disk for project 'BubbleShooting2'.
+	at org.tigris.subversion.subclipse.core.resources.SVNWorkspaceRoot.setSharing(SVNWorkspaceRoot.java:206)
+	at org.tigris.subversion.subclipse.core.SVNTeamProviderType$AutoShareJob.autoconnectSVNProject(SVNTeamProviderType.java:140)
+	at org.tigris.subversion.subclipse.core.SVNTeamProviderType$AutoShareJob.run(SVNTeamProviderType.java:106)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 1 org.tigris.subversion.subclipse.core 4 4 2017-09-01 13:37:36.530
+!MESSAGE Provided SVN information does not match that on disk for project 'BubbleShooting2'.
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2017-09-01 15:18:39.068
+!MESSAGE Failed converting ECJ parse tree to Lombok for file C:\Users\wtime\Documents\GitHub\Android\BubbleShooting\src\com\android\supremehappy\bubbleshouting\Bubble.java
+!STACK 0
+java.lang.NullPointerException: returnTypeReference is mandatory
+	at lombok.ast.MethodDeclaration.astReturnTypeReference(MethodDeclaration.java:75)
+	at lombok.ast.ecj.EcjTreeConverter$2.visitMethodDeclaration(EcjTreeConverter.java:1236)
+	at lombok.ast.ecj.EcjTreeVisitor.visitEcjNode(EcjTreeVisitor.java:152)
+	at lombok.ast.ecj.EcjTreeConverter.visit(EcjTreeConverter.java:295)
+	at lombok.ast.ecj.EcjTreeConverter.toTree(EcjTreeConverter.java:236)
+	at lombok.ast.ecj.EcjTreeConverter.fillList(EcjTreeConverter.java:282)
+	at lombok.ast.ecj.EcjTreeConverter.fillList(EcjTreeConverter.java:252)
+	at lombok.ast.ecj.EcjTreeConverter.access$100(EcjTreeConverter.java:141)
+	at lombok.ast.ecj.EcjTreeConverter$2.createNormalTypeBody(EcjTreeConverter.java:562)
+	at lombok.ast.ecj.EcjTreeConverter$2.visitTypeDeclaration(EcjTreeConverter.java:485)
+	at lombok.ast.ecj.EcjTreeVisitor.visitEcjNode(EcjTreeVisitor.java:48)
+	at lombok.ast.ecj.EcjTreeConverter.visit(EcjTreeConverter.java:295)
+	at lombok.ast.ecj.EcjTreeConverter.toTree(EcjTreeConverter.java:236)
+	at lombok.ast.ecj.EcjTreeConverter.fillList(EcjTreeConverter.java:282)
+	at lombok.ast.ecj.EcjTreeConverter.fillList(EcjTreeConverter.java:252)
+	at lombok.ast.ecj.EcjTreeConverter.access$100(EcjTreeConverter.java:141)
+	at lombok.ast.ecj.EcjTreeConverter$2.visitCompilationUnitDeclaration(EcjTreeConverter.java:440)
+	at lombok.ast.ecj.EcjTreeVisitor.visitEcjNode(EcjTreeVisitor.java:264)
+	at lombok.ast.ecj.EcjTreeConverter.visit(EcjTreeConverter.java:295)
+	at com.android.ide.eclipse.adt.internal.lint.EclipseLintClient$EclipseJavaParser.parseJava(EclipseLintClient.java:1166)
+	at com.android.tools.lint.client.api.JavaVisitor.visitFile(JavaVisitor.java:194)
+	at com.android.tools.lint.client.api.LintDriver.checkIndividualJavaFiles(LintDriver.java:1707)
+	at com.android.tools.lint.client.api.LintDriver.runFileDetectors(LintDriver.java:1024)
+	at com.android.tools.lint.client.api.LintDriver.checkProject(LintDriver.java:883)
+	at com.android.tools.lint.client.api.LintDriver.analyze(LintDriver.java:434)
+	at com.android.tools.lint.client.api.LintDriver.analyze(LintDriver.java:377)
+	at com.android.ide.eclipse.adt.internal.lint.LintJob.run(LintJob.java:163)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)

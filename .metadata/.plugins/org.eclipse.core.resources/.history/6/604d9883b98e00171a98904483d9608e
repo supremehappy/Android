@@ -1,0 +1,106 @@
+package com.android.supremehappy.bubbleshouting;
+
+import java.util.Random;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+public class Bubble {
+
+	public int x,y,rad; // 풍선 좌표, 반지름
+	public Bitmap imgBall; // 풍선 비트맵
+	public boolean dead = false; // 풍선 생존 여부
+	
+	private int _rad; // 원래 반지름
+	private int sx,sy; // 이동방향 및 속도
+	private int width, height; // 창 크기
+	
+	private Bitmap[] bubbles = new Bitmap[6]; // 풍선 애니메이션용 배열
+	private int imgNum = 0 ; // 사용할 풍선 이미지 인덱스
+	private int loop=0; // 반복에 사용될 카운터
+	private int counter=0; // 벽 충돌 횟수 
+	
+	public Bubble(Context context, int _x, int _y, int _width, int _height){
+		width = _width;
+		height = _height;
+		x = _x;
+		y = _y;
+		
+		imgBall = BitmapFactory.decodeResource(context.getResources(), R.drawable.bubble_1);
+		
+		Random rnd = new Random();
+		
+		_rad = rnd.nextInt(11)+20; // 무작위 반지름
+		rad = _rad;
+		
+		//---------- 풍선 애니메이션 처리(풍선 작아졌다가 커지는 효과)
+		for(int i = 0; i<=3;i++){
+			bubbles[i]= Bitmap.createScaledBitmap(imgBall, _rad*2+i*2, _rad*2+i*2, false);
+		}
+		
+		bubbles[4] = bubbles[2];
+		bubbles[5] = bubbles[1];
+		imgBall = bubbles[0];
+		
+		sx=rnd.nextInt(2);
+		
+		if(sx==0){
+			sx=-1;
+		}else{
+			sx=1;
+		}
+		
+		sy=rnd.nextInt(2);
+		
+		if(sy==0){
+			sy=-2;
+		}else{
+			sy=2;
+		}
+		
+		//---------- 풍선 이동
+		moveBubble();
+	}
+	
+	public void moveBubble(){
+		loop++;
+		
+		if(loop % 3 ==0){
+			imgNum++; // 풍선 인덱스 증가
+			
+			if(imgNum > 5){ // 최대인덱스를 넘으면 0으로 초기화
+				imgNum=0;
+			}
+			
+			imgBall = bubbles[imgNum];
+			
+			int k = imgNum;
+			
+			if(k > 3){
+				imgNum =6 - imgNum;
+			}
+			
+			rad = _rad+k*2; // 반지름 설정
+		}
+		
+		// 풍선 이동 후 좌표
+		x= x+sx;
+		y= y+sy;
+		
+		if(x<=rad || x>= width -rad){ // 좌 || 우 충돌시
+			sx=-sx; // 방향 변경
+			x= x+sx;  // 좌표수정
+			counter++; // 충돌 횟수 증가
+		}
+		if(y<=rad || y>=height -rad){ // 상 || 하 충돌시
+			sy = -sy;
+			y = y +sy;
+			counter++;
+		}
+		if(counter>=3){
+			dead = true;
+		}
+	}
+}
+

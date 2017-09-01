@@ -1,7 +1,9 @@
 package com.android.supremehappy.randd;
 
+import java.util.Locale;
+
+import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -9,8 +11,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Handler;
 import android.os.Message;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 public class RAndDView extends View {
 
@@ -22,12 +26,13 @@ public class RAndDView extends View {
 	Bitmap[] dragon1=new Bitmap[2];//왼드
 	Bitmap[] dragon2=new Bitmap[2];//오드
 	String str="";
-	Intent itt = new Intent();	
 	int counter, order;
+	Activity a;
+	private TextToSpeech mTTS;
 	
-	public RAndDView(Context context) {
+	public RAndDView(Context context,TextToSpeech mTTS) {
 		super(context);
-		
+		a = (Activity)context;
 		rabbit1[0]=BitmapFactory.decodeResource(getResources(), R.drawable.rabbit_1);
 		rabbit1[1]=BitmapFactory.decodeResource(getResources(), R.drawable.rabbit_2);
 		rabbit2[0]=BitmapFactory.decodeResource(getResources(), R.drawable.rabbit_1);
@@ -76,8 +81,25 @@ public class RAndDView extends View {
 			paint.setTextSize(50);
 			paint.setColor(Color.BLUE);
 			canvas.drawText(name+"가 먼저 도착", 100, 50, paint);
-			str=name+" 먼저 도착";
 			
+			this.mTTS=new TextToSpeech(a,new TextToSpeech.OnInitListener() {
+				
+				public void onInit(int status) {
+					
+					if(status == TextToSpeech.SUCCESS){
+						int result = mTTS.setLanguage(Locale.KOREAN);//한국어
+						
+						if(result!=TextToSpeech.LANG_MISSING_DATA || result != TextToSpeech.LANG_NOT_SUPPORTED){// 한국어 정보가 있고 지원하는 언어일때
+							
+							RAndDView.this.mTTS.speak("왼토 승리", TextToSpeech.QUEUE_FLUSH, null);
+						}else{
+							Toast.makeText(a, "not TTS", Toast.LENGTH_SHORT).show();
+							
+						}
+					}
+				}
+			});
+			flag=6;
 			
 		}else if(flag==2){
 			Paint paint = new Paint();
@@ -86,7 +108,24 @@ public class RAndDView extends View {
 			paint.setColor(Color.BLUE);
 			canvas.drawText(name+"가 먼저 도착", 100, 50, paint);
 			str=name+" 먼저 도착";
-			
+			this.mTTS=new TextToSpeech(a,new TextToSpeech.OnInitListener() {
+				
+				public void onInit(int status) {
+					
+					if(status == TextToSpeech.SUCCESS){
+						int result = mTTS.setLanguage(Locale.KOREAN);//한국어
+						
+						if(result!=TextToSpeech.LANG_MISSING_DATA || result != TextToSpeech.LANG_NOT_SUPPORTED){// 한국어 정보가 있고 지원하는 언어일때
+							
+							RAndDView.this.mTTS.speak("왼토 승리", TextToSpeech.QUEUE_FLUSH, null);
+						}else{
+							Toast.makeText(a, "not TTS", Toast.LENGTH_SHORT).show();
+							
+						}
+					}
+				}
+			});
+			flag=6;
 			
 		}else if(flag==3){
 			Paint paint = new Paint();
@@ -95,7 +134,24 @@ public class RAndDView extends View {
 			paint.setColor(Color.BLUE);
 			canvas.drawText(name+"가 먼저 도착", 100, 50, paint);
 			str=name+" 먼저 도착";
-			
+			this.mTTS=new TextToSpeech(a,new TextToSpeech.OnInitListener() {
+				
+				public void onInit(int status) {
+					
+					if(status == TextToSpeech.SUCCESS){
+						int result = mTTS.setLanguage(Locale.KOREAN);//한국어
+						
+						if(result!=TextToSpeech.LANG_MISSING_DATA || result != TextToSpeech.LANG_NOT_SUPPORTED){// 한국어 정보가 있고 지원하는 언어일때
+							
+							RAndDView.this.mTTS.speak("왼토 승리", TextToSpeech.QUEUE_FLUSH, null);
+						}else{
+							Toast.makeText(a, "not TTS", Toast.LENGTH_SHORT).show();
+							
+						}
+					}
+				}
+			});
+			flag=6;
 			
 		}else if(flag==4){
 			Paint paint = new Paint();
@@ -104,8 +160,31 @@ public class RAndDView extends View {
 			paint.setColor(Color.BLUE);
 			canvas.drawText(name+"가 먼저 도착", 100, 50, paint);
 			str=name+" 먼저 도착";
+			this.mTTS=new TextToSpeech(a,new TextToSpeech.OnInitListener() {
+				
+				public void onInit(int status) {
+					
+					if(status == TextToSpeech.SUCCESS){
+						int result = mTTS.setLanguage(Locale.KOREAN);//한국어
+						
+						if(result!=TextToSpeech.LANG_MISSING_DATA || result != TextToSpeech.LANG_NOT_SUPPORTED){// 한국어 정보가 있고 지원하는 언어일때
+							
+							RAndDView.this.mTTS.speak("왼토 승리", TextToSpeech.QUEUE_FLUSH, null);
+						}else{
+							Toast.makeText(a, "not TTS", Toast.LENGTH_SHORT).show();
+							
+						}
+					}
+				}
+			});
+			flag=6;
 			
-			
+		}else if(flag==6){
+			Paint paint = new Paint();
+			paint.setAntiAlias(true);
+			paint.setTextSize(50);
+			paint.setColor(Color.BLUE);
+			canvas.drawText(name+"가 먼저 도착", 100, 50, paint);
 		}
 	}
 	

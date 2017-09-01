@@ -1,0 +1,148 @@
+package android.example.djlee.bubbleshooting;
+
+import java.util.Random;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+class WaterBall{
+	public int x,y,rad;//좌표 및 반지름
+	public boolean dead = false;//제거 여부
+	public Bitmap imgBall;
+	private int width,height;//화면 크기
+	private int speed;//이동 속도
+	public WaterBall(Context context,int _x,int _y, 
+			int _width, int _height){
+		x=_x; y=_y; width = _width; height = _height;
+		imgBall=BitmapFactory.decodeResource(
+				context.getResources(), R.drawable.w0);
+		rad = imgBall.getWidth() / 2;
+		speed = 8;
+		moveBall();
+	}
+	public void moveBall(){
+		y = y - speed;//총알은 위로만 이동하므로 y좌표만 감소시킨다.
+		if(y < 0) dead = true;//y좌표가 0이하이면 화면에서 소멸
+	}
+}
+
+class SmallBall{
+	public int x,y,rad;
+	public boolean dead = false;
+	public Bitmap imgBall;
+	private int width,height;
+	private int sx,sy;
+	private int cr;//원의 반지름
+	private double r;//이동 각도
+	private int speed;//이동 속도
+	private int num;//풍선의 이미지 번호
+	private int life;//풍선의 생명주기
+	public SmallBall(Context context,int _x,int _y,int ang,
+			int _width,int _height){//생성자
+		sx = _x; sy = _y; width = _width; height = _height;
+		r = ang * Math.PI / 180;//이동 각도
+		Random rnd = new Random();
+		speed = rnd.nextInt(5) + 2;//속도(2 ~ 6)
+		rad = rnd.nextInt(10) + 5;//반지름(5 ~ 14);
+		num = rnd.nextInt(6);//이미지 번호 (0 ~ 5)
+		life = rnd.nextInt(31) + 20;//생존주기(20 ~ 50)
+		imgBall=BitmapFactory.decodeResource(context.getResources(),
+				R.drawable.b0 + num);
+		//b0 부터 b5까지의 이미지
+		imgBall=Bitmap.createScaledBitmap(imgBall, 
+				rad*2, rad*2, false);
+		cr = 10;
+		moveBall();
+	}
+	public void moveBall(){
+		life --;//생존주기를 감소
+		cr = cr + speed;
+		x = (int)(sx + Math.cos(r) * cr);//삼각함수를 사용해서 좌표 계산
+		y = (int)(sy + Math.sin(r) * cr);
+		if(x < -rad || x > width + rad || 
+				y < -rad || y > height + rad || life <= 0){
+			//좌표가 화면을 벗어났거나, 마이너스값을 갖거나, 생명주기값이 0이면 풍선을 삭제한다.
+			dead = true;
+		}
+	}
+}
+public class Bubble {
+	public int x,y,rad;//풍선의 좌표,반지름
+	public Bitmap imgBall;//풍선의 비트맵
+	public boolean dead = false;//풍선의 생존 여부
+	private int _rad;//원래의 반지름
+	private int sx,sy;//이동 방향 및 속도
+	private int width,height;//창의 크기
+	private Bitmap[] bubbles = new Bitmap[6];//풍선 애니메이션용 배열
+	private int imgNum = 0;//사용할 풍선이미지의 인덱스(배열의 인덱스)
+	private int loop = 0;//반복에 사용될 카운터
+	private int counter = 0;//벽과 충돌 횟수
+	public Bubble(Context context, int _x,int _y, 
+			int _width, int _height){//생성자
+		width = _width; height = _height; x = _x; y = _y;
+		imgBall=BitmapFactory.decodeResource(
+				context.getResources(), R.drawable.bubble_1);
+		Random rnd = new Random();
+		_rad = rnd.nextInt(11) + 20;//무작위로 발생하는 반지름(20~30)
+		rad = _rad;
+		//반지름이 커졌다 작아지는 풍선 6개 만들기
+		for(int i = 0; i <=3; i++){
+			bubbles[i]=Bitmap.createScaledBitmap(imgBall, 
+				_rad*2 + i*2, _rad*2 + i*2, false);
+		}
+		bubbles[4] = bubbles[2];	bubbles[5] = bubbles[1];
+		imgBall = bubbles[0];
+		sx = rnd.nextInt(2);
+		if(sx == 0) sx = -1;
+		else sx = 1;
+		sy = rnd.nextInt(2);
+		if(sy == 0) sy = -2;
+		else sy = 2;
+		//풍선을 이동시킨다.
+		moveBubble();
+	}
+	public void moveBubble(){
+		loop++;
+		if(loop % 3 == 0){
+			imgNum++;//풍선의 인덱스 증가
+			if(imgNum > 5) imgNum = 0;//풍선의 최대인덱스가 넘으면 0으로 설정
+			imgBall = bubbles[imgNum];//풍선을 선택
+			
+			int k = imgNum;
+			if(k > 3) imgNum = 6 - imgNum;
+			rad = _rad + k * 2;//반지름 설정
+		}
+		x = x + sx; y = y + sy;//풍선의 이동 후 좌표
+		if(x >= width - rad){//총알이 왼쪽벽에서 나타나므로 왼쪽 충돌체크는 안한다.
+			sx = -sx;//방향을 바꾼다.
+			x = x + sx;//좌표를 정정한다.
+		}
+//		if(x <= rad || x >= width - rad){//왼쪽 혹은 오른쪽 충돌인 경우
+//			sx = -sx;//방향을 바꾼다.
+//			x = x + sx;//좌표를 정정한다.
+//			counter++;//충돌 횟수를 증가한다.
+//		}
+		if(y <= rad || y >= height -rad){//위쪽 혹은 아래쪽 충돌인 경우
+			sy = -sy;//방향을 바꾼다.
+			y = y + sy;//좌표를 정정한다.
+//			counter++;//충돌 횟수를 증가한다.
+		}
+//		if(counter >= 3) dead = true;//충돌횟수가 3 이상이면 상태를 바꾼다.
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

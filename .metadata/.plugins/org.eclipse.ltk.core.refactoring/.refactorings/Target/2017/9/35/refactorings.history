@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;hole.png&apos; to &apos;drawable-hdpi&apos;&#x0D;&#x0A;- Original project: &apos;Target&apos;&#x0D;&#x0A;- Destination element: &apos;drawable-hdpi&apos;&#x0D;&#x0A;- Original element: &apos;hole.png&apos;" description="Copy file" element1="res/drawable-hdpi/hole.png" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1504245820931" target="/BubbleShooting/res/drawable-hdpi" units="0" version="1.0"/>
+</session>

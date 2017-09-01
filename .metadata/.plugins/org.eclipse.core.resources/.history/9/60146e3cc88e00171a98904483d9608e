@@ -1,0 +1,29 @@
+package com.android.supremehappy.bubbleshouting;
+
+import android.app.Activity;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+
+public class MainActivity extends Activity {
+	/*MediaPlayer m_sound_background;
+	int m_sound_id1,m_sound_play_id1*/;
+	SoundPool m_sound_pool;
+	int m_sound_id1,m_sound_play_id1;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(new MyGameView(this));
+		
+		/*m_sound_background= MediaPlayer.create(this, R.raw.sctt1);
+		m_sound_background.isPlaying();*/
+		m_sound_pool= new SoundPool(5,AudioManager.STREAM_MUSIC,0);
+		m_sound_id1 = m_sound_pool.load(this, R.raw.sctt1,1);
+		m_sound_play_id1=m_sound_pool.play(m_sound_id1, 1, 1, 0, -1, 1);
+	}
+}

@@ -1,0 +1,162 @@
+package com.android.supremehappy.bubbleshouting;
+
+import java.util.ArrayList;
+
+import com.example.soundproject.R;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
+import android.view.Display;
+import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceHolder.Callback;
+import android.view.SurfaceView;
+import android.view.WindowManager;
+
+public class MyGameView extends SurfaceView implements Callback {
+	
+	GameThread gt;
+	SurfaceHolder sh;
+	MediaPlayer m_sound_background;
+	int m_sound_id1,m_sound_play_id1;
+	
+	
+	public MyGameView(Context context) {
+		super(context);
+
+		sh = getHolder();
+		sh.addCallback(this);
+		
+		gt = new GameThread(sh, context);
+		
+		m_sound_background= MediaPlayer.create(context, R.raw.sctt1);
+		m_sound_background.isPlaying();
+	}
+
+	@Override
+	public void surfaceCreated(SurfaceHolder holder) {
+		
+		gt.start();
+
+	}
+
+	@Override
+	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void surfaceDestroyed(SurfaceHolder holder) {
+
+		boolean done = true;
+		
+		// 스레드가 종료되길 기다리다 서피스 뷰 삭제
+		while(done){
+			
+			try{
+				gt.join(); //스레드 종료되길 대기
+				done = false; // 스레드 종료되면 반복 종료
+			}catch(Exception e){
+				
+			}
+			
+		}
+
+	}
+	
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		if(event.getAction()==MotionEvent.ACTION_DOWN){
+			
+			// SurfaceHolder 스레드 동기화 -> 풍선 생성 후 동기화 해제
+			synchronized (sh) {
+			int x= (int)event.getX();
+			int y= (int)event.getY();
+			
+			gt.makeBUbble(x, y);
+			}
+			
+		}
+		return super.onTouchEvent(event);
+	}
+
+	//-------------------------------- 내부 스레드 클래스
+	class GameThread extends Thread{
+		
+		SurfaceHolder gh;
+		Context gc;
+		int width, height;
+		Bitmap imgBack;
+		ArrayList<Bubble> mBall = new ArrayList<Bubble>();
+		
+		GameThread(SurfaceHolder sh, Context context){
+			gh = sh;
+			gc = context;
+			
+			Display display = ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+			
+			width = display.getWidth();
+			height = display.getHeight();
+			
+			imgBack = BitmapFactory.decodeResource(getResources(), R.drawable.sky);
+			imgBack = Bitmap.createScaledBitmap(imgBack, width, height, false);
+			setFocusable(true);
+		}
+		
+		public void run(){
+			Canvas canvas = null;
+			
+			while(true){
+				canvas = gh.lockCanvas();
+				
+				try{
+					synchronized (gh) {
+						moveBubble();
+						canvas.drawBitmap(imgBack, 0, 0, null);
+						
+						for(Bubble bubble : mBall){ // arraylist 에 담긴 풍선들 다 그림
+							canvas.drawBitmap(bubble.imgBall, bubble.x-bubble.rad, bubble.y-bubble.rad, null);
+						}
+					}
+				}finally{
+					if(canvas != null){
+						gh.unlockCanvasAndPost(canvas);
+					}
+				}
+			}
+		}
+		
+		// 풍선 이동 메서드(스레드에서 이용)
+		public void moveBubble(){
+			for(int i=mBall.size()-1; i>=0; i--){
+				mBall.get(i).moveBubble();// 풍선 이동
+				
+				if(mBall.get(i).dead==true){ // 풍선 상태가 dead = true 면
+					mBall.remove(i); // arraylist 에서 제거
+				}
+			}
+		}
+		
+		// 풍선 생성 및 터치 반응 메서드
+		public void makeBUbble(int x, int y){
+			boolean flag = false;
+			
+			for(Bubble bubble : mBall){
+				if(Math.pow(bubble.x-x, 2)+Math.pow(bubble.y-y, 2)<=Math.pow(bubble.rad,2)){ // 풍선 터치시 
+					bubble.dead = true; // 해당 풍선 상태 변경
+					flag=true; // 터치로 설정
+					
+				}
+			}
+			
+			if(flag==false){
+				mBall.add(new Bubble(gc,x,y,width,height)); // 풍선 생성 후 arraylist 에 저장
+			}
+		}
+	}
+}

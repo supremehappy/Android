@@ -10,16 +10,14 @@ import android.widget.Toast;
 public class MainActivity extends Activity implements TextToSpeech.OnInitListener{
 
 	private TextToSpeech mTTS;
-	String str1="시작";	
 	RAndDView rnd;
-	String str;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(new RAndDView(this));
+		super.onCreate(savedInstanceState);		
 		
 		mTTS = new TextToSpeech(this,this);
-		
+		setContentView(new RAndDView(this,mTTS));
 		
 	}
 
@@ -31,24 +29,11 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 			
 			if(result!=TextToSpeech.LANG_MISSING_DATA || result != TextToSpeech.LANG_NOT_SUPPORTED){// 한국어 정보가 있고 지원하는 언어일때
 				
-				mTTS.speak(str1, TextToSpeech.QUEUE_FLUSH, null);
-				str1();
+				mTTS.speak("start", TextToSpeech.QUEUE_FLUSH, null);
 			}else{
 				Toast.makeText(this, "not TTS", Toast.LENGTH_SHORT).show();
 				
 			}
 		}
-	}
-	
-	public void str1(){
-		RAndDView r = null;
-		this.str=r.str;
-		
-		if(str == null){
-			mTTS.speak("error", TextToSpeech.QUEUE_FLUSH, null);
-		}else{
-			mTTS.speak(str, TextToSpeech.QUEUE_FLUSH, null);
-		}
-		
 	}
 }
