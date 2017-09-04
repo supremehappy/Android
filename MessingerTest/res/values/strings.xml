@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MessingerTest</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="server">server</string>
+    <string name="a">:</string>
+    <string name="c">connect</string>
+    <string name="server1">서버로 실행</string>
+    <string name="title_activity_chap">ChapActivity</string>
+
+</resources>

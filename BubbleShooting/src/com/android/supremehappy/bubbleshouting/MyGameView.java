@@ -11,6 +11,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
@@ -21,7 +25,7 @@ import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 
-public class MyGameView extends SurfaceView implements Callback {
+public class MyGameView extends SurfaceView implements Callback, SensorEventListener {
 	
 	GameThread gt;
 	SurfaceHolder sh;
@@ -30,6 +34,7 @@ public class MyGameView extends SurfaceView implements Callback {
 	Activity a;
 	MediaPlayer m_sound_background;
 	Context mContext;
+	SensorManager sensorManager; 
 	
 	public MyGameView(Context context) {
 		super(context);
@@ -50,6 +55,10 @@ public class MyGameView extends SurfaceView implements Callback {
 		if(m_sound_background.isPlaying()){
 			m_sound_background.setLooping(true);	
 		}
+		
+		//------------- 센서추가
+		sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+		sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),SensorManager.SENSOR_DELAY_GAME);
 	}
 	
 	public void stopGame(){
@@ -118,6 +127,34 @@ public class MyGameView extends SurfaceView implements Callback {
 			
 		}
 		return super.onTouchEvent(event);
+	}
+	
+	@Override
+	public void onSensorChanged(SensorEvent event) {
+		synchronized (this) {
+			switch (event.sensor.getType()) {
+			case Sensor.TYPE_ORIENTATION: // 센서 종류가 방향센서 일때
+				float heading = event.values[0]; // 0~360 값(기기를 바닥에 놓은 채로 돌릴때) 
+				// pitch, roll 은 평지에서 0
+				float pitch = event.values[1]; // 단말기가 하늘을 향할때 : -90 / 바닥에 있을때 180 / 뒤집혀 있을때 : -180
+				float roll = event.values[2]; // 좌우 기울임에 따라 -90 ~ 90
+				
+				//이미지 좌표
+				gt.mx = gt.mx - (int)roll;
+				gt.my = gt.my - (int)pitch;
+				
+				gt.moveSpider();
+				
+				break;
+			}
+		}
+		
+	}
+
+	@Override
+	public void onAccuracyChanged(Sensor sensor, int accuracy) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	//-------------------------------- 내부 스레드 클래스
@@ -383,5 +420,22 @@ public class MyGameView extends SurfaceView implements Callback {
 				sBall.add(new SmallBall(gc,x,y,ang,width,height));
 			}
 		}
+		
+		void moveSpider(){
+			if(mx<sw){
+				mx=sw;
+			}
+			if(my<sy){
+				my=sy;
+			}
+			if(mx>width -sw){
+				mx=width-sw;
+			}
+			if(my>height -sy){
+				my=height-sy;
+			}
+		}
 	}
+
+
 }

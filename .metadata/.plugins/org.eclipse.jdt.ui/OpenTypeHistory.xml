@@ -9,6 +9,9 @@
 <typeInfo handle="=MenuTest/src&lt;com.android.supremehappy.menutest{AnalogActivity.java[AnalogActivity" modifiers="1" timestamp="1503645784648"/>
 <typeInfo handle="=DBFromJava/src&lt;com.example.dbfromjava{TTSActivity.java[TTSActivity" modifiers="1" timestamp="1503983883002"/>
 <typeInfo handle="=IntentTest/C:\/Users\/wtime\/android-sdks\/platforms\/android-19\/android.jar&lt;android.app(Activity.class[Activity" modifiers="33" timestamp="1503620124071"/>
-<typeInfo handle="=RabbitRacing/C:\/Users\/wtime\/android-sdks\/platforms\/android-19\/android.jar&lt;java.lang(Thread.class[Thread" modifiers="33" timestamp="1503620124071"/>
 <typeInfo handle="=RabbitRacing/C:\/Users\/wtime\/android-sdks\/platforms\/android-19\/android.jar&lt;android.view(View.class[View" modifiers="33" timestamp="1503620124071"/>
+<typeInfo handle="=RabbitRacing/C:\/Users\/wtime\/android-sdks\/platforms\/android-19\/android.jar&lt;java.lang(Thread.class[Thread" modifiers="33" timestamp="1503620124071"/>
+<typeInfo handle="=DragonMoving/C:\/Users\/wtime\/android-sdks\/platforms\/android-19\/android.jar&lt;android.view(InputQueue$Callback.class[Callback" modifiers="1545" timestamp="1503620124071"/>
+<typeInfo handle="=DragonMoving/C:\/Users\/wtime\/android-sdks\/platforms\/android-19\/android.jar&lt;android.view(SurfaceView.class[SurfaceView" modifiers="33" timestamp="1503620124071"/>
+<typeInfo handle="=DragonMoving/C:\/Users\/wtime\/android-sdks\/platforms\/android-19\/android.jar&lt;android.view(SurfaceHolder$Callback.class[Callback" modifiers="1545" timestamp="1503620124071"/>
 </typeInfoHistroy>
