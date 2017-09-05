@@ -1,0 +1,75 @@
+package com.android.supremehappy.androidclient;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+
+	Button btn;
+	EditText edit_input;
+	TextView txt_msg;
+	XmlPullParserFactory f;
+	XmlPullParser xp;
+	
+	public static String DEFAULT_URL="http://192.168.1.149:8081/AndroidServer/AndroidServerServlet";
+	
+	Handler handler = new Handler();
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		
+		edit_input = (EditText)findViewById(R.id.edit_input);
+		edit_input.setText(DEFAULT_URL);
+		
+		txt_msg = (TextView)findViewById(R.id.txt_msg);
+		
+		btn = (Button)findViewById(R.id.btn);
+		btn.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				
+				String str = edit_input.getText().toString();
+				
+				ConnectThread ct = new ConnectThread(str);
+				
+				ct.start();
+				
+			}
+			
+		});
+	}
+	class ConnectThread extends Thread{
+		String urlStr;
+		
+		ConnectThread(String urlStr){
+			this.urlStr = urlStr;
+		}
+		
+		@Override
+		public void run(){
+			try{
+				final String output = requestWeb(urlStr);
+				
+				handler.post(new Runnable(){
+					public void run(){
+						txt_msg.setText(output);
+					}
+				});
+			}catch(Exception e){
+				
+			}
+		}
+	}
+}

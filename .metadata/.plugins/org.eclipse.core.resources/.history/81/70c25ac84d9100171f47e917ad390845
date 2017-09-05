@@ -1,0 +1,158 @@
+package com.android.supremehappy.messingertest;
+
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
+
+public class ChatActivity extends Activity {
+
+	private boolean isFirst = true;
+	private final int ADD_MESSAGE = 0;
+	private final int CONNECT_BY_CLIENT=1;
+	private final int CONNECT_BY_SERVER=2;
+	
+	private int PORT=2000;
+	private String REMOTE_SERVER_IP="";
+	private EditText message_box;
+	private ListView listView;
+	private ArrayAdapter<String> mAdapter;
+	
+	private final String head_my_message = "me : ";
+	private final String head_your_message = "you : ";
+	
+	private boolean runningMessageReceiver=false;
+	private boolean runningMessageSender=false;
+	
+	private ServerSocket mServerSocket;
+	private Socket mClientSocket = null;
+	
+	private int mode;
+	
+	Queue<String> sendMessageQueue = new LinkedList<String>();
+	
+	Button send_message;
+	
+	Handler handler = new Handler(){
+		public void handleMessage(Message msg){
+			switch(msg.what){
+			case ADD_MESSAGE:
+				mAdapter.add((String)msg.obj);
+				break;
+			case CONNECT_BY_CLIENT:
+				try{
+					new Thread(new Runnable(){
+						public void run(){
+							try{
+								mClientSocket = new Socket(REMOTE_SERVER_IP,PORT);
+							}catch(Exception e){
+								
+							}
+						}
+					}).start();
+				}catch(Exception e){
+					Toast.makeText(ChatActivity.this, "클라이언트로 실행할 수 없습니다", Toast.LENGTH_SHORT).show();
+				}
+				break;
+			case CONNECT_BY_SERVER:
+				try{
+					mServerSocket = new ServerSocket(PORT);
+				}catch(Exception e){
+					Toast.makeText(ChatActivity.this, "서버로 실행할 수 없습니다", Toast.LENGTH_SHORT).show();
+				}
+				break;
+			}
+		}
+	};
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_chap);
+
+		ArrayList<String>arrayList = new ArrayList<String>();
+		listView = (ListView)findViewById(R.id.message_timeline);
+		mAdapter = new ArrayAdapter<String>(ChatActivity.this,android.R.layout.simple_expandable_list_item_1,arrayList);
+		listView.setAdapter(mAdapter);
+		
+		Intent it = getIntent();
+		Bundle extra = it.getExtras();
+		mode = extra.getInt("mode");
+		
+		switch(mode){
+		case MainActivity.CLIENT_MODE :
+			break;
+			REMOTE_SERVER_IP = extra.getString("ip");
+			PORT = Integer.parseInt(extra.getString("port"));
+			runAsClient();
+		case MainActivity.SERVER_MODE :
+			runAsServer();
+			break;
+		}
+		
+		//메시지 송수신 스레드 생성 및 실행
+		runningMessageReceiver = true;
+		runningMessageSender = true;
+		
+		message_box =(EditText)findViewById(R.id.message_box);
+		
+		send_message =(Button)findViewById(R.id.send_message);
+		send_message.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+
+				String message = message_box.getText().toString();
+				
+				if(message.length()>0){
+					sendMessage(message);
+					message_box.setText(""); // 송신 후 입력창 비움
+				}
+				
+			}
+			
+		});
+	}
+	
+	private void sendMessage(String message){
+		sendMessageQueue.offer(message);
+	}
+	
+	private void runAsServer(){
+		try{
+			if(mServerSocket == null){
+				mServerSocket = new ServerSocket(PORT);
+				mAdapter.add("서버로 실행되었습니다. 서버 IP는 : "+getLocalIpAddress()+" 입니다");
+			}
+		}catch(Exception e){
+			Toast.makeText(this, "runAsServer() 실행 불가", Toast.LENGTH_SHORT).show();
+		}
+	}
+	
+	private void runAsClient(){
+		try{
+			if(mClientSocket == null){
+				Message message = handler.obtainMessage();
+				message.what=CONNECT_BY_CLIENT;
+				handler.sendMessage(message);
+				mAdapter.add("서버에 접속되었습니다. 서버 IP 는 : "+REMOTE_SERVER_IP+" , 포트번호는 : "+PORT+" 입니다");
+			}
+		}catch(Exception e){
+			Toast.makeText(this, "runAsClient() 실행 불가", Toast.LENGTH_SHORT).show();
+		}
+	}
+}

@@ -1,0 +1,405 @@
+package com.android.supremehappy.messingertest;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.Queue;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
+
+public class ChatActivity extends Activity {
+	private boolean isFirst = true;
+	private final int ADD_MESSAGE = 0;
+	private final int CONNECT_BY_CLIENT=1;
+	private final int CONNECT_BY_SERVER=2;
+	
+	private int PORT=2000;
+	private String REMOTE_SERVER_IP="";
+	private EditText message_box;
+	private ListView listView;
+	private ArrayAdapter<String> mAdapter;
+	
+	private final String head_my_message = "me : ";
+	private final String head_your_message = "you : ";
+	
+	private boolean runningMessageReceiver=false;
+	private boolean runningMessageSender=false;
+	
+	private ServerSocket mServerSocket;
+	private Socket mClientSocket = null;
+	
+	private int mode;
+	
+	Queue<String> sendMessageQueue = new LinkedList<String>();
+	
+	Button send_message;
+	
+	Handler handler = new Handler(){
+		public void handleMessage(Message msg){
+			switch(msg.what){
+			case ADD_MESSAGE:
+				mAdapter.add((String)msg.obj);
+				break;
+			case CONNECT_BY_CLIENT:
+				try{
+					new Thread(new Runnable(){
+						public void run(){
+							try{
+								mClientSocket = new Socket(REMOTE_SERVER_IP,PORT);
+							}catch(Exception e){
+								
+							}
+						}
+					}).start();
+				}catch(Exception e){
+					Toast.makeText(ChatActivity.this, "클라이언트로 실행할 수 없습니다", Toast.LENGTH_SHORT).show();
+				}
+				break;
+			case CONNECT_BY_SERVER:
+				try{
+					mServerSocket = new ServerSocket(PORT);
+				}catch(Exception e){
+					Toast.makeText(ChatActivity.this, "서버로 실행할 수 없습니다", Toast.LENGTH_SHORT).show();
+				}
+				break;
+			}
+		}
+	};
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_chap);
+
+		ArrayList<String>arrayList = new ArrayList<String>();
+		listView = (ListView)findViewById(R.id.message_timeline);
+		mAdapter = new ArrayAdapter<String>(ChatActivity.this,android.R.layout.simple_expandable_list_item_1,arrayList);
+		listView.setAdapter(mAdapter);
+		
+		Intent it = getIntent();
+		Bundle extra = it.getExtras();
+		mode = extra.getInt("mode");
+		
+		switch(mode){
+		case MainActivity.CLIENT_MODE :
+			REMOTE_SERVER_IP = extra.getString("ip");
+			PORT = Integer.parseInt(extra.getString("port"));
+			runAsClient();
+			break;
+			
+		case MainActivity.SERVER_MODE :
+			runAsServer();
+			break;
+		}
+		
+		//메시지 송수신 스레드 생성 및 실행
+		runningMessageReceiver = true;
+		
+		MessageRecevier mr = new MessageRecevier();
+		mr.start();
+		
+		runningMessageSender = true;
+		MessageSender ms = new MessageSender();
+		ms.start();
+		
+		message_box =(EditText)findViewById(R.id.message_box);
+		
+		send_message =(Button)findViewById(R.id.send_message);
+		send_message.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+
+				String message = message_box.getText().toString();
+				
+				if(message.length()>0){
+					sendMessage(message);
+					message_box.setText(""); // 송신 후 입력창 비움
+				}
+				
+			}
+			
+		});
+	}
+	
+	@Override
+	protected void onDestroy() {
+		
+		super.onDestroy();
+		
+		if(runningMessageReceiver){
+			runningMessageReceiver= false;
+		}
+		if(runningMessageSender){
+			runningMessageSender= false;
+		}
+	}
+	
+	private void sendMessage(String message){
+		sendMessageQueue.offer(message);
+	}
+	
+	private void runAsServer(){
+		try{
+			if(mServerSocket == null){
+				mServerSocket = new ServerSocket(PORT);
+				mAdapter.add("서버로 실행되었습니다. 서버 IP는 : "+getLocalIpAddress()+" 입니다");
+			}
+		}catch(Exception e){
+			Toast.makeText(this, "runAsServer() 실행 불가", Toast.LENGTH_SHORT).show();
+		}
+	}
+	
+	private void runAsClient(){
+		try{
+			if(mClientSocket == null){
+				Message message = handler.obtainMessage();
+				message.what=CONNECT_BY_CLIENT;
+				handler.sendMessage(message);
+				mAdapter.add("서버에 접속되었습니다. 서버 IP 는 : "+REMOTE_SERVER_IP+" , 포트번호는 : "+PORT+" 입니다");
+			}
+		}catch(Exception e){
+			Toast.makeText(this, "runAsClient() 실행 불가", Toast.LENGTH_SHORT).show();
+		}
+	}
+	
+	private String getLocalIpAddress(){
+		try{
+			// 네트워크 인터페이스 갯수 만큼 반복
+			for(Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces();en.hasMoreElements();){
+				NetworkInterface intf = en.nextElement();
+
+				//인터페이스에 IP주소의 갯수 만큼 반복
+				for(Enumeration<InetAddress>enumIpAddr= intf.getInetAddresses(); enumIpAddr.hasMoreElements();){
+					InetAddress inetAddress = enumIpAddr.nextElement();
+					
+					// 루프백 주소가 아닌 경우
+					if(!inetAddress.isLoopbackAddress()){
+						
+						// 주소에 : 가 없는 경우 (= 주소가 16진수로 되어 있지 않는 경우)
+						if(! inetAddress.getHostAddress().toString().contains(":")){
+							return inetAddress.getHostAddress().toString(); // 리턴
+						}
+					}
+				}
+			}
+		}catch(Exception e){
+			
+		}
+		return null;
+	}
+	
+	private void addmessageToListView(String data){
+		if(data!= null && data.length()>0){
+			Message message = handler.obtainMessage();
+			
+			message.what=ADD_MESSAGE;
+			message.arg1=0;
+			message.arg2=0;
+			message.obj=data;
+			handler.sendMessage(message);
+		}
+	}
+	
+//------------------------------- 내부 클래스	
+	// 스레드에서 사용
+	class MessageSender extends Thread{
+		public void run(){
+			// OutputStream 로 OutputStreamWriter 생성, OutputStreamWriter 로 BufferedWriter 생성
+			// BufferedWriter 로 PrintWriter 생성
+			// PrintWriter 로 사용된 객체들의 기능 사용 가능
+			String message = null;
+			PrintWriter out = null;
+			BufferedWriter bw  =null;
+			OutputStreamWriter osw = null;
+			OutputStream os = null;
+			
+			while(runningMessageSender){
+				// 접속 했지만 출력할 객체가 없는 경우
+				if(mClientSocket != null && out == null){
+					try{
+						os=mClientSocket.getOutputStream();
+						osw=new OutputStreamWriter(os);
+						bw = new BufferedWriter(osw);
+						out = new PrintWriter(bw);
+					}catch(Exception e){
+						
+					}
+				
+					// 접속 해제했으나 출력 객체가 있는 경우
+				}else if(mClientSocket ==null && out !=null){
+					out.close();
+				}
+				// 접속 및 출력객체 존재
+				if(mClientSocket !=null && out!=null){
+					// 접속되고 처음인 경우
+					if(isFirst){
+						out.println(mClientSocket.getInetAddress().toString());
+						out.flush();
+						isFirst= false; // 한번만 동작 하도록 값 변경
+					}
+					message = sendMessageQueue.poll(); // 전송 메시지 추출
+					
+					if(message != null){
+						out.println(message);
+						out.flush();
+						addmessageToListView(head_my_message+message); // 전송 메시지를 리스트뷰에 출력
+						
+					}
+				}
+				try{
+					Thread.sleep(10); // 출력을 위해 잠시 대기
+				}catch(Exception e){
+					
+				}
+			}
+			// 클라이언트 경우
+			if(mode==MainActivity.CLIENT_MODE){
+				if(mClientSocket != null){
+					try{
+						mClientSocket.shutdownInput(); // 소켓 종료
+						mClientSocket.close();
+					}catch(Exception e){
+						
+					}
+				}
+				// 서버인 경우
+			}else if(mode == MainActivity.SERVER_MODE){
+				if(mServerSocket !=null){
+					try{
+						if(mClientSocket != null){
+							mClientSocket.shutdownInput(); // 소켓 종료
+						}
+						mServerSocket.close();
+					}catch(Exception e){
+						
+					}
+				}
+			}
+			
+			if(out != null){
+				out.close();
+			}
+			if(bw!=null){
+				try{
+					bw.close();
+				}catch(Exception e){
+					
+				}
+			}
+			if(osw!=null){
+				try{
+					osw.close();
+				}catch(Exception e){
+					
+				}
+			}
+			if(os!=null){
+				try{
+					os.close();
+				}catch(Exception e){
+					
+				}
+			}
+		}
+	}
+	
+//------------------------------- 내부 클래스	
+	class MessageRecevier extends Thread{
+		public void run(){
+			BufferedReader br = null;
+			InputStream is = null;
+			InputStreamReader isr = null; 
+			
+			while(runningMessageReceiver){
+				try{
+					// 서버인 경우
+					if(mClientSocket == null && mode == MainActivity.SERVER_MODE){
+						mClientSocket = mServerSocket.accept(); // 클라이언트 연결
+						addmessageToListView(mClientSocket.getInetAddress().getHostAddress() + " 와 연결");
+					}
+					
+					// 클라이언트와 연결이 안된 경우, 연결 재시도
+					if(mClientSocket == null){
+						continue;
+					}
+					
+					is = mClientSocket.getInputStream();
+					isr = new InputStreamReader(is);
+					
+					if(br == null){
+						br= new BufferedReader(isr);
+					}
+					
+					String data = br.readLine(); // 수신된 메시지 변수에 저장
+					
+					if(data == null){
+						br.close();
+						br = null;
+						addmessageToListView("접속 해제");
+						
+						// 클라이언트 경우
+						if(mode == MainActivity.CLIENT_MODE){
+							finish(); // 종료
+						}
+					}else{
+						addmessageToListView(head_your_message+data);
+					}
+				}catch(Exception e){
+					
+				}finally{
+					try{
+						Thread.sleep(10);
+					}catch(Exception e){
+						
+					}
+				}
+			}
+			
+			if(br != null){
+				try{
+					br.close();
+				}catch(Exception e){
+					
+				}
+			}
+			if(isr != null){
+				try{
+					isr.close();
+				}catch(Exception e){
+					
+				}
+			}
+			if(is != null){
+				try{
+					is.close();
+				}catch(Exception e){
+					
+				}
+			}
+			 
+		}
+	}
+}

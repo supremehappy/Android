@@ -1,0 +1,24 @@
+package com.android.supremehappy.connetweb;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.webkit.WebView;
+
+public class MainActivity extends Activity {
+
+	WebView wv;
+	final private String DEFAULT_URL="http://www.naver.com";
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		
+		wv = (WebView) findViewById(R.id.webView1);
+		
+		wv.getSettings().setJavaScriptEnabled(true);
+		wv.getSettings().setUseWideViewPort(true);
+		
+		wv.loadUrl(DEFAULT_URL);
+	}
+}

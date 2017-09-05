@@ -1,0 +1,98 @@
+package com.android.supremehappy.messingertest;
+
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
+
+public class ChatActivity extends Activity {
+
+	private boolean isFirst = true;
+	private final int ADD_MESSAGE = 0;
+	private final int CONNECT_BY_CLIENT=1;
+	private final int CONNECT_BY_SERVER=2;
+	
+	private int PORT=2000;
+	private String REMOTE_SERVER_IP="";
+	private EditText message_box;
+	private ListView listView;
+	private ArrayList<String> mAdapter;
+	
+	private final String head_my_message = "me : ";
+	private final String head_your_message = "you : ";
+	
+	private boolean runningMessageReceiver=false;
+	private boolean runningMessageSender=false;
+	
+	private ServerSocket mServerSocket;
+	private Socket mClientSocket = null;
+	
+	private int mode;
+	
+	Queue<String> sendMessageQueue = new LinkedList<String>();
+	
+	Button send_message;
+	
+	Handler handler = new Handler(){
+		public void handleMessage(Message msg){
+			switch(msg.what){
+			case ADD_MESSAGE:
+				mAdapter.add((String)msg.obj);
+				break;
+			case CONNECT_BY_CLIENT:
+				try{
+					new Thread(new Runnable(){
+						public void run(){
+							try{
+								mClientSocket = new Socket(REMOTE_SERVER_IP,PORT);
+							}catch(Exception e){
+								
+							}
+						}
+					}).start();
+				}catch(Exception e){
+					Toast.makeText(ChatActivity.this, "클라이언트로 실행할 수 없습니다", Toast.LENGTH_SHORT).show();
+				}
+				break;
+			case CONNECT_BY_SERVER:
+				try{
+					mServerSocket = new ServerSocket(PORT);
+				}catch(Exception e){
+					Toast.makeText(ChatActivity.this, "서버로 실행할 수 없습니다", Toast.LENGTH_SHORT).show();
+				}
+				break;
+			}
+		}
+	};
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_chap);
+		
+		message_box =(EditText)findViewById(R.id.message_box);
+		
+		send_message =(Button)findViewById(R.id.send_message);
+		send_message.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+	}
+}

@@ -1,0 +1,161 @@
+package com.android.supremehappy.androidclient;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends Activity {
+
+	Button btn;
+	EditText edit_input;
+	TextView txt_msg;
+	XmlPullParserFactory f;
+	XmlPullParser xp;
+	
+	public static String DEFAULT_URL="http://192.168.1.149:8081/AndroidServer/AndroidServerServlet";
+	
+	Handler handler = new Handler();
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		
+		edit_input = (EditText)findViewById(R.id.edit_input);
+		edit_input.setText(DEFAULT_URL);
+		
+		txt_msg = (TextView)findViewById(R.id.txt_msg);
+		
+		btn = (Button)findViewById(R.id.btn);
+		btn.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				
+				String str = edit_input.getText().toString();
+				
+				ConnectThread ct = new ConnectThread(str);
+				
+				
+				ct.start();
+				Toast.makeText(MainActivity.this, "onClick", Toast.LENGTH_SHORT).show();
+			}
+			
+		});
+	}
+	
+	private String request(String urlStr){
+		StringBuffer buffer = new StringBuffer();
+		
+		try{
+			Toast.makeText(MainActivity.this, "request", Toast.LENGTH_SHORT).show();
+			URL url = new URL(urlStr); // 입력된 url 로 객체 생성
+			HttpURLConnection conn=(HttpURLConnection)url.openConnection(); // http 프로토콜을 이용해서 접속하는 객체 생성
+			
+			if(conn !=null){
+				conn.setConnectTimeout(10000); // 최대 접속 대기 시간
+			}
+				int resCode = conn.getResponseCode(); // 응답코드
+				
+				if(resCode == HttpURLConnection.HTTP_OK){
+					//접속된 객체 -> InputStream 얻고 -> InputStream으로 -> InputStreamReader 생성 -> InputStreamReader 으로 -> BufferedReader 생성
+					BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+					
+					String line = null;
+					
+					while(true){
+						line = reader.readLine();
+						
+						if(line == null){
+							break;
+						}
+						buffer.append(line+"\n");
+					}
+					reader.close();
+					conn.disconnect();
+				}
+		}catch(Exception e){
+			Toast.makeText(MainActivity.this, "error", Toast.LENGTH_SHORT).show();
+		}
+		
+		return buffer.toString();
+	}
+	
+	private void onShow(String str){
+		StringBuilder builder = new StringBuilder();
+		
+		try{
+			Toast.makeText(MainActivity.this, "onshow", Toast.LENGTH_SHORT).show();
+			f= XmlPullParserFactory.newInstance();
+			xp = f.newPullParser();
+			xp.setInput(new StringReader(str));
+			
+			while(xp.next()!=XmlPullParser.END_DOCUMENT){
+				String  name = xp.getName();
+				String position = null;
+				String brand= null;
+				
+				if(name != null && name.equals("CAR")){
+					int size = xp.getAttributeCount();
+					
+					for(int i =0; i<size ; i++){
+						String attName = xp.getAttributeName(i);
+						String attValue = xp.getAttributeValue(i);
+						
+						if(attName != null && attName.equals("positon")){
+							position = attValue;
+						}else if(attName != null && attName.equals("brand")){
+							brand = attValue;
+						}
+					}
+					if(position != null && brand !=null){
+						builder.append(position+", "+brand+"\n");
+					}
+				}
+			}
+		}catch(Exception e){
+			Toast.makeText(this, "xml error", Toast.LENGTH_SHORT).show();
+		}
+	}
+	
+	//---------------------------------------- 내부클래스
+	class ConnectThread extends Thread{
+		String urlStr;
+		
+		ConnectThread(String urlStr){
+			this.urlStr = urlStr;
+			Toast.makeText(MainActivity.this, "thread", Toast.LENGTH_SHORT).show();
+		}
+		
+		@Override
+		public void run(){
+			try{
+				Toast.makeText(MainActivity.this, "run", Toast.LENGTH_SHORT).show();
+				final String output = request(urlStr);
+				
+				handler.post(new Runnable(){
+					public void run(){
+						onShow(output);
+					}
+				});
+			}catch(Exception e){
+				
+			}
+		}
+	}
+}
