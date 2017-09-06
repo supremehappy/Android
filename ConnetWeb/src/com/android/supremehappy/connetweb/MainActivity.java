@@ -8,7 +8,7 @@ import android.webkit.WebViewClient;
 public class MainActivity extends Activity {
 
 	WebView wv;
-	final private String DEFAULT_URL="http://www.naver.com";
+	final private String DEFAULT_URL="http://192.168.1.149:8081/dokdosarang/intro.html";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

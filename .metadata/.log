@@ -11446,3 +11446,17 @@ java.lang.NullPointerException
 	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:673)
 	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:610)
 	at org.eclipse.equinox.launcher.Main.run(Main.java:1519)
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2017-09-05 17:38:16.868
+!MESSAGE Failed to load properties file for project 'JsonReadTest'
+
+!ENTRY org.tigris.subversion.subclipse.core 4 0 2017-09-05 17:38:17.896
+!MESSAGE Could not auto-share project JsonReadTest
+!STACK 1
+org.tigris.subversion.subclipse.core.SVNException: Provided SVN information does not match that on disk for project 'JsonReadTest'.
+	at org.tigris.subversion.subclipse.core.resources.SVNWorkspaceRoot.setSharing(SVNWorkspaceRoot.java:206)
+	at org.tigris.subversion.subclipse.core.SVNTeamProviderType$AutoShareJob.autoconnectSVNProject(SVNTeamProviderType.java:140)
+	at org.tigris.subversion.subclipse.core.SVNTeamProviderType$AutoShareJob.run(SVNTeamProviderType.java:106)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 1 org.tigris.subversion.subclipse.core 4 4 2017-09-05 17:38:17.896
+!MESSAGE Provided SVN information does not match that on disk for project 'JsonReadTest'.
