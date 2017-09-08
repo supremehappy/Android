@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+ <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+ <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+ 
+ <link  href="http://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css" rel="stylesheet"> <!-- 3 KB -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script>
+
+<style type="text/css">
+	.fotorama_caption{
+		text-align:center;
+	}
+	#logo{
+		width:176px;
+		height:132px;
+		background-image: url(pics/SHOP_TITLE.png);
+		background-repeat: no-repeat;
+		margin-top: 0px;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 10px;
+	}
+	.title_style{
+		color: #3f3c30;
+		padding-top: 10px;
+	}
+	.small{
+		width: 30%;
+	}
+	.ui-btn-left{
+		float: left;
+	}
+	.ui-btn-right{
+		float: right;
+	}
+	.clear_both{
+		clear: both;
+	}
+	#video_canvas{
+		margin-top:0px; margin-left: auto; margin-right: auto; margin-bottom: 0px; width:320px; height:240px;
+	}
+	.content_style{
+		padding-right: 0px; padding-left: 0px;
+	}
+</style>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<!-- menu -->
+	<div data-role="page" id="main">
+		<div data-role="header" data-theme="b">
+			<h2 id="logo"></h2>
+		</div>
+		
+		<div data-role="content">
+			<ul data-role="listview" data-inset="true">
+				<li><a href="#shop_images"><img alt="" src="pics/pic_i.png" class="ui-li-thumb"><h3 class="title_style">매장 이미지</h3></a></li>
+				<li><a href="#intro"><img alt="" src="pics/intro_i.png" class="ui-li-thumb"><h3 class="title_style">매장 소개</h3></a></li>
+				<li><a href="#shop_video"><img alt="" src="pics/movie_i.png" class="ui-li-thumb"><h3 class="title_style">매장 영상</h3></a></li>
+				<li><a href="map_location.html" rel="external"><img alt="" src="pics/map_i.png" class="ui-li-thumb"><h3 class="title_style">매장 위치</h3></a></li>
+			</ul>
+		</div>
+		
+		<div data-role="footer">
+			<h5>copyright</h5>
+		</div>
+	</div>
+	
+<!-- #shop_images -->
+	<div data-role="page" id="shop_images" class="gallery-page">
+		<div data-role="header" data-theme="b">
+			<a href="#main" data-icon="home" data-direction="reverse" calss="ui-btn-left">home</a>
+			<h1>매장 이미지</h1>
+		</div>
+		
+		<div data-role="content" data-theme="b">
+			<div class="fotorama" data-arrows="true" data-width="100%" data-ratio="965/643" data-allow-fullscreen="true" data-nav="thumbs">
+				<img src="pics/cb01.jpg" data-caption="매장입구" />
+				<img src="pics/cb02.jpg" data-caption="매장전경" />
+				<img src="pics/cb03.jpg" data-caption="매장왼쪽" />
+				<img src="pics/cb04.jpg" data-caption="매장오른쪽" />
+				<img src="pics/cb05.jpg" data-caption="모임장소" />
+				<img src="pics/cb06.jpg" data-caption="가족공간" />
+				<img src="pics/cb07.jpg" data-caption="연인공간" />
+				<a href="https://www.youtube.com/watch?v=9bZkp7q19f0">홍보영상</a>
+			</div>
+		</div>
+		
+		<div data-role="footer" data-theme="b">
+			<h4>copyright</h4>
+		</div>
+	</div>
+
+<!-- #intro -->
+	<div data-role="page" id="intro">
+		<div data-role="header" data-theme="b">
+			<a href="#main" data-icon="home" data-direction="reverse" calss="ui-btn-left">home</a>
+		</div>
+		
+		<div data-role="content" data-theme="b">
+			<img class="small" id="pic_shop" src="pics/images.jpg" alt="">
+			<h2>"<strong class="bold_style">분위기 좋은</strong>, 그리고 <strong class="bold_style">깨끗한</strong> 장소입니다."</h2>
+				<div class="clear_both">
+				</div>
+				<p> 우리 매장은..... (생략)..... 있습니다.</p>
+				<p> 모든 음식은..... (생략)..... 있습니다.</p>
+				<p> 모든 직원은..... (생략)..... 감사합니다.</p>
+		</div>
+		
+		<div data-role="footer" data-theme="b">
+			<h4>copyright</h4>
+		</div>
+	</div>
+
+<!-- #shop_video -->
+	<div data-role="page" id="shop_video">
+		<div data-role="header" data-theme="b">
+			<a href="#main" data-icon="home" data-direction="reverse" calss="ui-btn-left">home</a>
+		</div>
+		
+		<div data-role="content" data-theme="c" class="content_style">
+			<div id="video_canvas">
+				<video width="320" height="240" controls >
+					<source src="pics/CAM00447.mp4" type="video/mp4">
+					<source src="pics/CAM00447.ogg" type="video/ogg">
+					<source src="pics/CAM00447.webm" type="video/webm">
+				</video>
+			</div>
+		</div>
+		
+		<div data-role="footer" data-theme="b">
+			<h4>copyright</h4>
+		</div>
+	</div>
+
+</body>
+</html>
